@@ -32,7 +32,7 @@ In theory, should work for all AE version CC 2019 and up.
   - Use the Standard local host webUI or change the API URL in-extension to use collab!
 
 ## Planned Future Updates
-- EBSynth Integration
+- Temporal Coherence
   - Will be adding extra features to the AE side to help with this, including:
     - Scripting auto scene-edit detection and integration of extra python scripts to get the best possible EbSynth output.
     - Looking into using NVIDIA Optical Flow SDK as opposed to ebsynth for temporal coherance
