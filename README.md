@@ -48,8 +48,6 @@ In theory, should work for all AE version CC 2019 and up.
 - My goal with this is to make things as EASY as possible, requiring the least-possible amount of user input.
 
 ## Known Issues/Bugs
-- Sometimes the Extension will say 'No Layer named Input' Found, despite one existing.
-   - Current work-around is to reset project, and add a solid 8 px smaller on all sides 
 - SD Model List not showing certain Models
    - Under Investigation. TBD.
 - AE outputs do not work Properly
