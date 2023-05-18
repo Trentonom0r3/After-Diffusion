@@ -39,12 +39,14 @@ A CEP Extension for Adobe After Effects that allows for seamless integration of 
 ### CEP Installation
 1. Download the `CEP` folder.
 2. Place the `CEP` folder into the following directory: `C:\Program Files (x86)\Common Files\Adobe\CEP\extensions`.
-3. Open Adobe After Effects and proceed with the installation.
+3. Open Adobe After Effects and access the extension. 
+4. Make sure you give scripts full permissions in AE preferences.
 
 ### ZXP Installation
 1. Download the ZXP file from the `ZXP` folder.
 2. Install the ZXP file using [ZXPInstaller](https://zxpinstaller.com/).
-3. You're all set!
+3. Make sure you give scripts full permissions in AE preferences.
+4. You're all set!
 
 
 ## Usage
