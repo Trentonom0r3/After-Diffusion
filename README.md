@@ -58,6 +58,7 @@ A CEP Extension for Adobe After Effects that allows for seamless integration of 
    3. After Diffusion also uses the "Best Settings" Render template. I'm not sure how it will behave across versions, so I'd recommend manually changing the      'Effects' parameter of 'Best Settings' to 'All Off,' just to eliminate the possibility of issues from there.
 
 ## Demo
+<iframe width="560" height="315" src="https://www.youtube.com/embed/IArI8VGK8ao" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 # Resources and Thanks
 - GPT 4.0 for helping write most of this
