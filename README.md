@@ -1,4 +1,6 @@
 # After-Diffusion
+A CEP Extension for Adobe After Effects that allows for seamless integration of the Stable Diffusion Web-UI.
+
 # Table of Contents
 - [Key Features](#key-features)
 - [Coming Soon](#coming-soon)
