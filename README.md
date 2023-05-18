@@ -65,4 +65,5 @@ In theory, should work for all AE version CC 2019 and up.
 - GPT 4.0 for helping write most of this
 - [AbdullahAlfaraj](https://github.com/AbdullahAlfaraj), and his work on the [Auto Photoshop SD Plugin](https://github.com/AbdullahAlfaraj/Auto-Photoshop-StableDiffusion-Plugin)
 - [Automatic1111](https://github.com/AUTOMATIC1111/stable-diffusion-webui)
+- [HyperBrew Bolt-CEP](https://github.com/hyperbrew/bolt-cep)
 
