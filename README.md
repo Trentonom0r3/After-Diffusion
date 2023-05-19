@@ -26,7 +26,7 @@ A CEP Extension for Adobe After Effects that allows for seamless integration of 
     ```
 
     - Then, disable detectmap output in WebUI ControlNet Settings
-    - 
+    
 - Most of the work is done on the backend, allowing less work for AE and less work for you!
 - Harness the power of After Effects features without bouncing back and forth between webUI, AE, and your system.
 - Set webUI models and more directly from the extension.
