@@ -20,12 +20,13 @@ A CEP Extension for Adobe After Effects that allows for seamless integration of 
 - ControlNet Support Added! Multi-ControlNet available, only limited by your webUI settings!
     - Input Image does not work, and by default, we're using pixel perfect, so only a few params.
     - To Ensure ControlNet will work, open a terminal instance in your SD main folder, and enter this code:
-    - Disable detectmap output in WebUI ControlNet Settings
 
     ```
     git checkout '89f9faa63388756314e8a1d96cf86bf5e0663045'
     ```
 
+    - Then, disable detectmap output in WebUI ControlNet Settings
+    - 
 - Most of the work is done on the backend, allowing less work for AE and less work for you!
 - Harness the power of After Effects features without bouncing back and forth between webUI, AE, and your system.
 - Set webUI models and more directly from the extension.
