@@ -43,12 +43,6 @@ A CEP Extension for Adobe After Effects that allows for seamless integration of 
 3. Open Adobe After Effects and access the extension. 
 4. Make sure you give scripts full permissions in AE preferences.
 
-### ZXP Installation
-1. Download the ZXP file from the `ZXP` folder.
-2. Install the ZXP file using [ZXPInstaller](https://zxpinstaller.com/).
-3. Make sure you give scripts full permissions in AE preferences.
-4. You're all set!
-
 ### WebUI Checks
 1. If you update hash to ensure Controlnet use, double check your `webui-user.bat` file.
    - Make sure command-line arguments include `--api`
