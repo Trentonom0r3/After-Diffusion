@@ -53,6 +53,20 @@ A CEP Extension for Adobe After Effects that allows for seamless integration of 
 1. If you update hash to ensure Controlnet use, double check your `webui-user.bat` file.
    - Make sure command-line arguments include `--api`
 
+### Python Requirements
+To install the required packages, you have two options:
+
+Option 1: Running the Extension
+You can run the extension, which should automatically install the necessary dependencies for you.
+
+Option 2: Manual Installation
+Alternatively, you can manually install the required packages using the following pip command:
+
+
+    pip install opencv-python requests flask
+
+
+
 ## Usage
 
 To use the After-Diffusion CEP extension, follow these steps:
