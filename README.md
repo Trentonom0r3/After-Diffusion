@@ -77,7 +77,7 @@ To use the After-Diffusion CEP extension, follow these steps:
 5. If you want to select a specific region for AI alteration, create a solid of the desired size using the shortcut 'Ctrl+Y'. Use this solid to define the area to be altered.
 6. Choose the desired generation mode by clicking either the 'TXT2IMG' or 'IMG2IMG' button. The selected mode will be visually indicated with a colored border.
 7. If using the 'IMG2IMG' mode, select the type of generation from the dropdown menu. Options include 'IMG2IMG', 'IMG2IMG Mask', 'IMG2IMG Batch', and 'IMG2IMG Mask Multi'.
-8. Adjust any other available options or settings within the extension, which should be similar to the familiar options in Stable Diffusion. Hover over UI elements for tooltips and tips.
+8. Adjust any other available options or settings within the extension, which should be similar to the familiar options in Stable Diffusion. Hover over UI elements for tooltips and hints.
 9. Start the diffusion process by clicking the "Generate" button.
 10. Once the process starts, you can switch screens or perform other tasks while the extension works in the background.
 11. For best results, follow the same best practices you would use in Stable Diffusion.
