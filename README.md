@@ -50,7 +50,7 @@ A CEP Extension for Adobe After Effects that allows for seamless integration of 
 4. You're all set!
 
 ### WebUI CHecks
-1. If you Update hash to ensure Controlnet use, double check your webui-user.bat file.
+1. If you update hash to ensure Controlnet use, double check your 'webui-user.bat'. file.
    -Make SURE commandline args include '--api'
 
 ## Usage
