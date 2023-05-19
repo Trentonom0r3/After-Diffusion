@@ -49,6 +49,9 @@ A CEP Extension for Adobe After Effects that allows for seamless integration of 
 3. Make sure you give scripts full permissions in AE preferences.
 4. You're all set!
 
+### WebUI CHecks
+1. If you Update hash to ensure Controlnet use, double check your webui-user.bat file.
+   -Make SURE commandline args include '--api'
 
 ## Usage
 
