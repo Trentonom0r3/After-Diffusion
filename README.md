@@ -110,7 +110,6 @@ To use the After-Diffusion CEP extension, follow these steps:
  - Will be adjusting the code itself soon, but for now, the workaround is as follows:
    1. Make sure the Output Module for 'H.264 - Match Render Settings - 40 Mbps' is set to H.264 format.
    2. Make sure the Output Module for 'Alpha Only' is set to output in H.264 format instead of .avi.
-   3. After Diffusion also uses the "Best Settings" Render template. I'm not sure how it will behave across versions, so I'd recommend manually changing the     'Effects' parameter of 'Best Settings' to 'All Off,' just to eliminate the possibility of issues from there.
 - 'Input Layer not found' or rendering despite an input layer being present
   - Working on a fix currently.
 - If you have older CN models/preprocessors, it may cause an error. For example, trying to use 'Depth' and 'Depth-fp16'.
