@@ -51,7 +51,7 @@ A CEP Extension for Adobe After Effects that allows for seamless integration of 
 
 ### ZXP Installation
 1. Download the ZXP file from the `ZXP` folder.
-2. Install the ZXP file using [ZXPInstaller](https://zxpinstaller.com/).
+2. Install the ZXP file using [ZXPInstaller](https://aescripts.com/learn/zxp-installer/).
 3. Make sure you give scripts full permissions in AE preferences.
 4. You're all set!
 
