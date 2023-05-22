@@ -62,10 +62,10 @@ A CEP Extension for Adobe After Effects that allows for seamless integration of 
 ### Python Requirements
 To install the required packages, you have two options:
 
-Option 1: Running the Extension
+#### Option 1: Running the Extension
 -You can run the extension, which should automatically install the necessary dependencies for you.
 
-Option 2: Manual Installation
+#### Option 2: Manual Installation
 -Alternatively, you can manually install the required packages using the following pip command:
 
 
