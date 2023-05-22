@@ -8,6 +8,7 @@ A CEP Extension for Adobe After Effects that allows for seamless integration of 
 - [Installation](#installation)
 - [Usage](#usage)
 - [Limitations and Considerations](#limitations-and-considerations)
+- [Currently In Development](#currently-in-development)
 - [Coming Soon](#coming-soon)
 - [Planned Future Updates](#planned-future-updates)
 - [Known Issues/Bugs](#known-issuesbugs)
@@ -97,12 +98,16 @@ To use the After-Diffusion CEP extension, follow these steps:
     -As more features are added, you will have more and more control over the SD webUI.
 - Creativity and imagination play a significant role in exploring the full potential of the extension.
 
+## Currently In Development
+-Swapping to AERender Background rendering
+   -Should be able to change things so that we aren't adding or changing anything in comp, other than adding the generated images.
+-Option to change webUI URL. (Collab users, and --nowebui users)
+-Key-Frameable SD Parameters
+   -This will include a custom droppable 'Psuedo-Effect'.
 
 ## Coming Soon
 - Loras, scripts, etc.
-- Swapping AE Native Render Engine for the AE Background Render Engine.
-- Full Google Collab Support
- - Use the Standard localhost webUI or change the API URL in-extension to use collab!
+- UI Overhaul (Suggestions Welcome)
 
 ## Planned Future Updates
 - Temporal Coherence
@@ -111,7 +116,6 @@ To use the After-Diffusion CEP extension, follow these steps:
  - Looking into using NVIDIA Optical Flow SDK as opposed to ebsynth for temporal coherence.
 - Instruct Pix2Pix Support.
 - Audio-Reactive Image Generation (for both TXT2IMG and IMG2IMG).
-- Key-frameable SD settings.
 - Preset Modes + Ability to add new presets.
 - Prompt Saving.
 
