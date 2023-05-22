@@ -3,6 +3,7 @@
 A CEP Extension for Adobe After Effects that allows for seamless integration of the Stable Diffusion Web-UI. In theory, should work for all AE versions CC 2019 and up.
 
 ## Table of Contents
+- [Change Log](#change-log)
 - [Key Features](#key-features)
 - [Installation](#installation)
 - [Usage](#usage)
@@ -15,6 +16,11 @@ A CEP Extension for Adobe After Effects that allows for seamless integration of 
 - [Resources and Thanks](#resources-and-thanks)
 - [Notes/Extras](#notesextras)
 
+## Change Log
+5.22.23
+    Fixed issue on ZXP install, added ZXP option back to repository.
+    Removed PIX2PIX button, added 'img2img alternative test' switch.
+    
 ## Key Features
 - Work Directly with Videos: No need for PNG sequences anymore.
 - ControlNet Support Added! Multi-ControlNet available, only limited by your webUI settings!
