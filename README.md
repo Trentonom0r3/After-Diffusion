@@ -3,7 +3,7 @@
 A CEP Extension for Adobe After Effects that allows for seamless integration of the Stable Diffusion Web-UI. In theory, should work for all AE versions CC 2019 and up.
 
 #### Multi-Controlnet Support added!
-   -Input Image (Control Image) available soon.
+   - Input Image (Control Image) available soon.
 
 ## Table of Contents
 - [Change Log](#change-log)
@@ -31,9 +31,11 @@ A CEP Extension for Adobe After Effects that allows for seamless integration of 
     - Input Image does not work, and by default, we're using pixel perfect, so only a few params.
     - To Ensure ControlNet will work, open a terminal instance in your SD main folder, and enter this code:
 
+
     ```
     git checkout '89f9faa63388756314e8a1d96cf86bf5e0663045'
     ```
+
 
     - Then, disable detectmap output in WebUI ControlNet Settings
     
@@ -67,14 +69,14 @@ A CEP Extension for Adobe After Effects that allows for seamless integration of 
 To install the required packages, you have two options:
 
 #### Option 1: Running the Extension
--You can run the extension, which should automatically install the necessary dependencies for you.
+- You can run the extension, which should automatically install the necessary dependencies for you.
 
 #### Option 2: Manual Installation
--Alternatively, you can manually install the required packages using the following pip command:
+- Alternatively, you can manually install the required packages using the following pip command:
 
-
+    ```
     pip install opencv-python requests flask
-
+    ```
 
 
 ## Usage
@@ -102,11 +104,11 @@ To use the After-Diffusion CEP extension, follow these steps:
 - Creativity and imagination play a significant role in exploring the full potential of the extension.
 
 ## Currently In Development
--Swapping to AERender Background rendering
-   -Should be able to change things so that we aren't adding or changing anything in comp, other than adding the generated images.
--Option to change webUI URL. (Collab users, and --nowebui users)
--Key-Frameable SD Parameters
-   -This will include a custom droppable 'Psuedo-Effect'.
+- Swapping to AERender Background rendering
+   - Should be able to change things so that we aren't adding or changing anything in comp, other than adding the generated images.
+- Option to change webUI URL. (Collab users, and --nowebui users)
+- Key-Frameable SD Parameters
+   - This will include a custom droppable 'Psuedo-Effect'.
 
 ## Coming Soon
 - Loras, scripts, etc.
