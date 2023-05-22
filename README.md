@@ -18,8 +18,8 @@ A CEP Extension for Adobe After Effects that allows for seamless integration of 
 
 ## Change Log
 5.22.23
-    Fixed issue on ZXP install, added ZXP option back to repository.
-    Removed PIX2PIX button, added 'img2img alternative test' switch.
+   - Fixed issue on ZXP install, added ZXP option back to repository.
+   - Removed PIX2PIX button, added 'img2img alternative test' switch.
     
 ## Key Features
 - Work Directly with Videos: No need for PNG sequences anymore.
