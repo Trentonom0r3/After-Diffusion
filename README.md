@@ -123,6 +123,7 @@ To use the After-Diffusion CEP extension, follow these steps:
 - Audio-Reactive Image Generation (for both TXT2IMG and IMG2IMG).
 - Preset Modes + Ability to add new presets.
 - Prompt Saving.
+- Exploring the use of a 'dummy' native C++ plugin to enhance the CEP.
 
 ## Known Issues/Bugs
 - SD Model List not showing certain Models
