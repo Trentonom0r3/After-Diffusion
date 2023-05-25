@@ -8,6 +8,7 @@ import time
 from flask import Flask, request, jsonify
 
 app = Flask(__name__)
+sd_url = 'http://127.0.0.1:7860'
 
 def extract_frame(video_path, frame_number, output_path):
     # Open the video file
@@ -31,13 +32,29 @@ def extract_frame(video_path, frame_number, output_path):
     video.release()
     return output_path
 
+@app.route('/change_url', methods=['POST'])
+def change_sd_url():
+    # Get the new sd_url from the request payload
+    payload = request.get_json()
+    new_sd_url = payload.get('sd_url', None)
+
+    if new_sd_url is None:
+        return "Error: 'sd_url' not found in the request payload", 400
+
+    # Update the global sd_url variable with the new value
+    global sd_url
+    sd_url = new_sd_url
+
+    return "sd_url changed successfully"
+
+
 @app.route('/text2image', methods=['POST'])
 def process_image():
     # Get the payload from the CEP extension
     payload = request.get_json()
     print(payload)
     # Send the payload to the external API
-    url = 'http://127.0.0.1:7860/sdapi/v1/txt2img'
+    url = f'{sd_url}/sdapi/v1/txt2img'
     headers = {'Content-Type': 'application/json'}
     response = requests.post(url, headers=headers, json=payload)
     response_data = response.json()
@@ -104,7 +121,7 @@ def process_image2():
         return jsonify({"error": str(e)}), 400
     
      # Send the payload to the external API
-    url = 'http://127.0.0.1:7860/sdapi/v1/img2img'
+    url = f'{sd_url}/sdapi/v1/img2img'
     headers = {'Content-Type': 'application/json'}
     response = requests.post(url, headers=headers, json=payload)
     print(payload)
@@ -196,7 +213,7 @@ def process_image_mask():
     print("Sending payload:", payload)
 
     # Send the payload to the external API
-    url = 'http://127.0.0.1:7860/sdapi/v1/img2img'
+    url = f'{sd_url}/sdapi/v1/img2img'
     headers = {'Content-Type': 'application/json'}
     response = requests.post(url, headers=headers, json=payload)
     print(payload)
