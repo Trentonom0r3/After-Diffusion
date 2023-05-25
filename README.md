@@ -21,6 +21,9 @@ A CEP Extension for Adobe After Effects that allows for seamless integration of 
 - [Notes/Extras](#notesextras)
 
 ## Change Log
+#### 5.25.23
+   - Created a basic [Discord Server](https://discord.gg/EbsH6ZHd) for people to join. It'll make things a bit easier for finding issues/providing updates and tutorials. I don't expect a ton of traffic, but its there if you're interested! 
+   
 #### 5.22.23
    - Fixed issue on ZXP install, added ZXP option back to repository.
    - Removed PIX2PIX button, added 'img2img alternative test' switch.
