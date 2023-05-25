@@ -3,7 +3,7 @@
 A CEP Extension for Adobe After Effects that allows for seamless integration of the Stable Diffusion Web-UI. In theory, should work for all AE versions CC 2019 and up.
 
 #### Multi-Controlnet Support added!
-   - Input Image (Control Image) available soon.
+   - Input Image (Control Image) available!
 
 ## Table of Contents
 - [Change Log](#change-log)
