@@ -55,14 +55,21 @@ var ns = config.id;
 var importImageAtCTI = function importImageAtCTI(imagePath) {
   var comp = app.project.activeItem;
   if (!(comp instanceof CompItem)) {
-    alert("No active composition.");
-    return;
+    console.log("No active composition.");
+    return {
+      success: false,
+      message: "No active composition."
+    };
   }
   var imageFile = new File(imagePath);
   var importedImage = app.project.importFile(new ImportOptions(imageFile));
   var imageLayer = comp.layers.add(importedImage);
   imageLayer.startTime = comp.time;
-  return "Image imported successfully.";
+  console.log("Image imported successfully.");
+  return {
+    success: true,
+    message: "Image imported successfully."
+  };
 };
 var getwidth = function getwidth() {
   var comp = app.project.activeItem;
@@ -512,6 +519,303 @@ var maskimagepayload = function maskimagepayload(frame) {
   }
 };
 
+// Define the function
+var getPluginParams = function getPluginParams(comp) {
+  // Access the currently selected layer
+  var layer = comp.selectedLayers[0];
+  if (!layer) {
+    alert("No layer selected.");
+    return;
+  }
+
+  // Access the specified plugin
+  var plugin = layer.effect('ADBE AESD');
+  if (!plugin) {
+    alert("Plugin 'ADBE AESD' not found.");
+    return;
+  }
+
+  // Define mappings from dropdown indices to text values
+  var samplerMethodOptions = {
+    1: "Euler a",
+    2: "Euler",
+    3: "LMS",
+    4: "Heun",
+    5: "DPM2",
+    6: "DPM2 a",
+    7: "DPM++ 2S a",
+    8: "DPM++ 2M",
+    9: "DPM++ SDE",
+    10: "DPM fast",
+    11: "DPM adaptive",
+    12: "LMS Karras",
+    13: "DPM2 Karras",
+    14: "DPM2 a Karras",
+    15: "DPM++ 2S a Karras",
+    16: "DPM++ 2M Karras",
+    17: "DPM++ SDE Karras",
+    18: "DDIM",
+    19: "PLMS",
+    20: "UniPC"
+  };
+  var scriptsOptions = {
+    1: "None",
+    2: "img2img alternative test",
+    3: "loopback",
+    4: "outpainting mk2",
+    5: "poor man's outpainting",
+    6: "prompt matrix",
+    7: "prompts from file or textbox",
+    8: "sd upscale",
+    9: "x/y/z plot",
+    10: "controlnet m2m",
+    11: "depthmap"
+    // Add more options as needed
+  };
+
+  var preprocessorOptions = {
+    1: "none",
+    2: "canny",
+    3: "depth",
+    4: "depth_leres",
+    5: "depth_leres++",
+    6: "hed",
+    7: "hed_safe",
+    8: "mediapipe_face",
+    9: "mlsd",
+    10: "normal_map",
+    11: "openpose",
+    12: "openpose_hand",
+    13: "openpose_face",
+    14: "openpose_faceonly",
+    15: "openpose_full",
+    16: "clip_vision",
+    17: "color",
+    18: "pidinet",
+    19: "pidinet_safe",
+    20: "pidinet_sketch",
+    21: "pidinet_scribble",
+    22: "scribble_xdog",
+    23: "scribble_hed",
+    24: "segmentation",
+    25: "threshold",
+    26: "depth_zoe",
+    27: "normal_bae",
+    28: "oneformer_coco",
+    29: "oneformer_ade20k",
+    30: "lineart",
+    31: "lineart_coarse",
+    32: "lineart_anime",
+    33: "lineart_standard",
+    34: "shuffle",
+    35: "tile_resample",
+    36: "invert",
+    37: "lineart_anime_denoise",
+    38: "reference_only",
+    39: "reference_adain",
+    40: "reference_adain+attn",
+    41: "inpaint"
+    // Add more options as needed
+  };
+
+  var modelOptions = {
+    1: "none",
+    2: "control_v11e_sd15_ip2p [c4bb465c]",
+    3: "control_v11e_sd15_shuffle [526bfdae]",
+    4: "control_v11f1e_sd15_tile [a371b31b]",
+    5: "control_v11f1p_sd15_depth [cfd03158]",
+    6: "control_v11p_sd15_canny [d14c016b]",
+    7: "control_v11p_sd15_inpaint [ebff9138]",
+    8: "control_v11p_sd15_lineart [43d4be0d]",
+    9: "control_v11p_sd15_mlsd [aca30ff0]",
+    10: "control_v11p_sd15_normalbae [316696f1]",
+    11: "control_v11p_sd15_openpose [cab727d4]",
+    12: "control_v11p_sd15_scribble [d4ba51ff]",
+    13: "control_v11p_sd15_seg [e1f51eb9]",
+    14: "control_v11p_sd15_softedge [a8575a2a]",
+    15: "control_v11p_sd15s2_lineart_anime [3825e83e]"
+    // Add more options as needed
+  };
+
+  var generationTypeOptions = {
+    1: "TXT2IMG",
+    2: "IMG2IMG",
+    3: "IMG2IMG Inpaint"
+  };
+  var controlModeOptions = {
+    1: "Balanced",
+    2: "My Prompt is More Important",
+    3: "Controlnet is More Important"
+  };
+
+  // Define an object to store the plugin parameters
+  var params = {};
+
+  // Retrieve the selected layer index from the plugin
+  var selectedLayerIndex = plugin.property("Input").value;
+
+  // Get the composition reference
+  var comp = app.project.activeItem;
+  if (comp && comp instanceof CompItem) {
+    // Check if the selected layer index is valid
+    if (selectedLayerIndex >= 1 && selectedLayerIndex <= comp.numLayers) {
+      // Get the selected layer
+      var selectedLayer = comp.layer(selectedLayerIndex);
+
+      // Get the source file path
+      if (selectedLayer.source) {
+        var sourceFile = selectedLayer.source.file;
+        if (sourceFile) {
+          params.sourcePath = sourceFile.fsName; // Use fsName to get the full file path
+        } else {
+          params.sourcePath = "No source assigned";
+        }
+      } else {
+        params.sourcePath = "No source assigned";
+      }
+
+      // Get the current frame
+      params.currentFrame = Math.round(comp.frameRate * comp.time);
+    } else {
+      params.sourcePath = "Invalid layer index";
+      params.currentFrame = 0;
+    }
+  } else {
+    params.sourcePath = "No composition selected";
+    params.currentFrame = 0;
+  }
+  params.samplerMethod = samplerMethodOptions[plugin.property("Sampler Method").value];
+  params.steps = plugin.property("Steps").value;
+  params.cfgScale = plugin.property("CFG Scale").value;
+  params.denoisingStrength = plugin.property("Denoising Strength").value;
+  params.scripts = scriptsOptions[plugin.property("Scripts").value];
+  params.generationType = generationTypeOptions[plugin.property("Generation Type").value];
+  params.controlnet1 = {
+    enable: plugin.property("Enable Controlnet 1").value,
+    preprocessor: preprocessorOptions[plugin.property("Preprocessor").value],
+    model: modelOptions[plugin.property("Model").value],
+    weight: plugin.property("Weight").value,
+    guidanceStart: plugin.property("Guidance Start").value,
+    guidanceEnd: plugin.property("Guidance End").value,
+    controlMode: controlModeOptions[plugin.property("Control Mode").value]
+  };
+  params.controlnet2 = {
+    enable: plugin.property("Enable Controlnet 2").value,
+    preprocessor: preprocessorOptions[plugin.property("Preprocessor").value],
+    model: modelOptions[plugin.property("Model").value],
+    weight: plugin.property("Weight").value,
+    guidanceStart: plugin.property("Guidance Start").value,
+    guidanceEnd: plugin.property("Guidance End").value,
+    controlMode: controlModeOptions[plugin.property("Control Mode").value]
+  };
+  params.controlnet3 = {
+    enable: plugin.property("Enable Controlnet 3").value,
+    preprocessor: preprocessorOptions[plugin.property("Preprocessor").value],
+    model: modelOptions[plugin.property("Model").value],
+    weight: plugin.property("Weight").value,
+    guidanceStart: plugin.property("Guidance Start").value,
+    guidanceEnd: plugin.property("Guidance End").value,
+    controlMode: controlModeOptions[plugin.property("Control Mode").value]
+  };
+  params.controlnet4 = {
+    enable: plugin.property("Enable Controlnet 4").value,
+    preprocessor: preprocessorOptions[plugin.property("Preprocessor").value],
+    model: modelOptions[plugin.property("Model").value],
+    weight: plugin.property("Weight").value,
+    guidanceStart: plugin.property("Guidance Start").value,
+    guidanceEnd: plugin.property("Guidance End").value,
+    controlMode: controlModeOptions[plugin.property("Control Mode").value]
+  };
+  params.controlnet5 = {
+    enable: plugin.property("Enable Controlnet 5").value,
+    preprocessor: preprocessorOptions[plugin.property("Preprocessor").value],
+    model: modelOptions[plugin.property("Model").value],
+    weight: plugin.property("Weight").value,
+    guidanceStart: plugin.property("Guidance Start").value,
+    guidanceEnd: plugin.property("Guidance End").value,
+    controlMode: controlModeOptions[plugin.property("Control Mode").value]
+  };
+  var payload = {
+    images: {
+      path: params.sourcePath,
+      frame: params.currentFrame
+    },
+    sampler: params.samplerMethod,
+    steps: params.steps,
+    cfg_scale: params.cfgScale,
+    denoising_strength: params.denoisingStrength,
+    script_name: params.scripts,
+    mode: 4,
+    //add mode options
+    inpainting_fill: 1,
+    //add inpainting fill options
+    enableControlnet: {
+      alwayson_scripts: {
+        controlnet: {
+          args: [{
+            enabled: params.controlnet1.enable,
+            module: params.controlnet1.preprocessor,
+            model: params.controlnet1.model,
+            weight: params.controlnet1.weight,
+            resize_mode: 1,
+            //add resize mode options
+            low_vram: false,
+            //add checkbox
+            guidance_start: params.controlnet1.guidanceStart,
+            guidance_end: params.controlnet1.guidanceEnd,
+            pixel_perfect: true
+          }, {
+            enabled: params.controlnet2.enable,
+            module: params.controlnet2.preprocessor,
+            model: params.controlnet2.model,
+            weight: params.controlnet2.weight,
+            resize_mode: 1,
+            low_vram: false,
+            guidance_start: params.controlnet2.guidanceStart,
+            guidance_end: params.controlnet2.guidanceEnd,
+            pixel_perfect: true
+          }, {
+            enabled: params.controlnet3.enable,
+            module: params.controlnet3.preprocessor,
+            model: params.controlnet3.model,
+            weight: params.controlnet3.weight,
+            resize_mode: 1,
+            low_vram: false,
+            guidance_start: params.controlnet3.guidanceStart,
+            guidance_end: params.controlnet3.guidanceEnd,
+            pixel_perfect: true
+          }, {
+            enabled: params.controlnet4.enable,
+            module: params.controlnet4.preprocessor,
+            model: params.controlnet4.model,
+            weight: params.controlnet4.weight,
+            resize_mode: 1,
+            low_vram: false,
+            guidance_start: params.controlnet4.guidanceStart,
+            guidance_end: params.controlnet4.guidanceEnd,
+            pixel_perfect: true
+          }, {
+            enabled: params.controlnet5.enable,
+            module: params.controlnet5.preprocessor,
+            model: params.controlnet5.model,
+            weight: params.controlnet5.weight,
+            resize_mode: 1,
+            low_vram: false,
+            guidance_start: params.controlnet5.guidanceStart,
+            guidance_end: params.controlnet5.guidanceEnd,
+            pixel_perfect: true
+          }]
+        }
+      }
+    }
+  };
+  alert(JSON.stringify(payload));
+  return payload;
+};
+
+// Usage
+var comp = app.project.activeItem;
+
 var aeft = /*#__PURE__*/__objectFreeze({
   __proto__: null,
   importImageAtCTI: importImageAtCTI,
@@ -525,7 +829,8 @@ var aeft = /*#__PURE__*/__objectFreeze({
   startNewImageComp: startNewImageComp,
   importImageAtFrame: importImageAtFrame,
   initimagepayload: initimagepayload,
-  maskimagepayload: maskimagepayload
+  maskimagepayload: maskimagepayload,
+  getPluginParams: getPluginParams
 });
 
 var main;
