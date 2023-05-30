@@ -14,7 +14,7 @@ A CEP Extension for Adobe After Effects that allows for seamless integration of 
 
 - **Pseudo Effect 98% complete!**
   - One small change required: A minor adjustment is needed to finalize the pseudo effect implementation.
-
+  - [Demo](https://github.com/Trentonom0r3/After-Diffusion/blob/main/pseudo.gif)
 - **Backend rework 50% complete.**
 
 
