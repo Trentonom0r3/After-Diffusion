@@ -3,16 +3,20 @@
 A CEP Extension for Adobe After Effects that allows for seamless integration of the Stable Diffusion Web-UI. In theory, should work for all AE versions CC 2019 and up.
 
 #### Updates!
-   - UI rework 95% completed
-      - custom buttons
-      - simpler interface
-      - custom override settings
-      - blends into AE UI, looks native. 
-   
-   - Psuedo Effect 98% complete! 
-      - one small change required
 
-   - Back-end rework 50% complete. 
+- **UI rework 95% completed**  
+  - Custom buttons: Added custom-designed buttons for improved user experience.
+  - Simpler interface: Redesigned the interface to make it more intuitive and user-friendly.
+  - Custom override settings: Implemented custom settings to allow users to personalize their experience.
+  - Blends into AE UI, looks native: Updated the UI to seamlessly integrate with After Effects, providing a native look and feel.
+
+![Comp 1](https://github.com/Trentonom0r3/After-Diffusion/assets/130304830/4546f4ff-65a0-49ed-8440-d33eae4bc8ac)
+
+- **Pseudo Effect 98% complete!**
+  - One small change required: A minor adjustment is needed to finalize the pseudo effect implementation.
+
+- **Backend rework 50% complete.**
+
 
 ## Table of Contents
 - [Change Log](#change-log)
