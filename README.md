@@ -1,6 +1,10 @@
 # After-Diffusion
 
-A CEP Extension for Adobe After Effects that allows for seamless integration of the Stable Diffusion Web-UI. In theory, should work for all AE versions CC 2019 and up.
+This is the Beta Branch! Non-Production ready, simply here for exposition, and testing.
+## Contents
+- Custom Effect; 'AESD.aex'
+- Updated UI.
+  - Much simpler interface, fits better with native app.
 
 #### Updates!
 
