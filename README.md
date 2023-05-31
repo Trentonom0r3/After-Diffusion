@@ -1,6 +1,6 @@
 # After-Diffusion
 
-This is the Beta Branch! Non-Production ready, simply here for exposition, and testing.
+This is the Beta Branch! Non-Production ready, simply here for exposition and testing.
 ## Contents
 - Custom Effect; 'AESD.aex'
 - Updated UI.
