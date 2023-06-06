@@ -2,7 +2,7 @@
 
 A CEP Extension for Adobe After Effects that allows for seamless integration of the Stable Diffusion Web-UI. In theory, should work for all AE versions CC 2019 and up.
 
-#### Updates!
+#### Updates!!
 
 - **UI rework 95% completed**  
   - Custom buttons: Added custom-designed buttons for improved user experience.
@@ -173,4 +173,6 @@ To use the After-Diffusion CEP extension, follow these steps:
 - I am 100% open to collaboration, especially from those more technically skilled than I. Let's work together!
 
 Thank you for your understanding, patience, and support!
+
+![Built_With_BOLT_CEP_Logo_White_V01](https://github.com/Trentonom0r3/After-Diffusion/assets/130304830/53b7e99f-83d0-43e1-8082-59f7accde12b)
 
