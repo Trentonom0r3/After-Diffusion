@@ -1,3 +1,6 @@
+## Estimated Release Period
+I'm currently working hard to finalize the After-Diffusion V2.0 release. I anticipate that the release will be ready within the next two weeks. Please stay tuned for further updates and announcements.
+
 # 🎉 Major Update: After-Diffusion V2.0 🎉
 
 After-Diffusion, your favorite CEP Extension for Adobe After Effects, has undergone a major overhaul. This release is packed with updates and enhancements that you've been asking for. The tool now blends seamlessly into the AE UI, looking and feeling like a native extension. This update comes with a brand new UI and a series of incredible features designed to supercharge your workflow.
@@ -24,7 +27,7 @@ Better information when errors occur and more context on how to fix them/what we
 ## 🔗 Better Backend Integration
 With this update, things will feel more deeply integrated, giving you an even greater feeling of seamlessness. Work directly with videos, set webUI models, and more directly from the extension. Less direct action in After Effects and more happening on the backend.
 
-This overhaul has been a long process, and we believe that it will be worth the wait. We are excited to see what you will create with these new tools at your disposal!
+This overhaul has been a long process, and I believe that it will be worth the wait. I am excited to see what you will create with these new tools at your disposal!
 
 ## License
 The software is licensed under the [AGPL-3.0 license](https://github.com/Trentonom0r3/After-Diffusion/blob/main/LICENSE).
