@@ -1,5 +1,5 @@
 ## Pre-Release Build Out Now!
-This build is nearly complete-- most if not all feature should be working, but there will still be plenty of bugs. Error handling is not updated in this build either.
+This build is nearly complete-- most if not all features should be working, but there will still be plenty of bugs. Error handling is not updated in this build either.
 #### Usage 
 - Copy the .aex file into your effect folder.
 - Install CEP extension as done previously.
