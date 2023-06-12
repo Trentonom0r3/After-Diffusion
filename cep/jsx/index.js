@@ -44,43 +44,20 @@ var config = {
     jsxBin: "off"
   },
   installModules: [],
-  copyAssets: [],
+  copyAssets: ["Python"],
   copyZipAssets: []
 };
 
 var ns = config.id;
 
+var layer;
 var checkAESD = function checkAESD() {
   var comp = app.project.activeItem;
   if (!(comp && comp instanceof CompItem)) {
-    alert("Please select a composition.");
     return;
   }
-
-  // Check if there is already a layer with 'ADBE AESD' effect
-  var hasEffect = false;
-  for (var i = 1; i <= comp.numLayers; i++) {
-    var layer = comp.layer(i);
-    if (layer.hasVideo && layer.effect.numProperties > 0) {
-      for (var j = 1; j <= layer.effect.numProperties; j++) {
-        if (layer.effect(j).matchName === 'ADBE AESD') {
-          hasEffect = true;
-          break;
-        }
-      }
-    }
-    if (hasEffect) {
-      break;
-    }
-  }
-
-  // Create a new adjustment layer and add 'ADBE AESD' effect if no such layer exists
-  if (!hasEffect) {
-    var adjLayer = comp.layers.addSolid([0, 0, 0], "Adjustment Layer", comp.width, comp.height, comp.pixelAspect, comp.duration);
-    adjLayer.adjustmentLayer = true;
-    adjLayer.property("ADBE Transform Group").property("ADBE Opacity").setValue(0);
-    adjLayer.Effects.addProperty('ADBE AESD');
-  }
+  var layer = comp.selectedLayers[0];
+  layer.Effects.addProperty('ADBE AESD');
 };
 
 // Helper function to check if a composition exists
@@ -137,17 +114,13 @@ var getlength = function getlength() {
 };
 
 //modify to accept frame as path. Modify to get values from CEP, and modify to handle the different modes.
-var getPluginParams = function getPluginParams(frame) {
+var getPluginParams = function getPluginParams() {
   var comp = app.project.activeItem; // Get the active composition
-  var layer = comp.selectedLayers[0]; // Assuming the effect is applied to the first selected layer
+  layer = comp.selectedLayers[0]; // Assuming the effect is applied to the first selected layer
 
   var effect = layer.property("ADBE Effect Parade").property("ADBE AESD"); // Replace "ADBE AESD" with your effect match name
 
   var paramValues = [];
-  var frameRate = comp.frameRate;
-  var time = frame / frameRate; // Convert frame to time
-  comp.time = time; // Set the composition time to the given frame
-
   var paramValue = [];
 
   // Retrieve the values of each parameter
@@ -178,11 +151,12 @@ var preprocessorNames = ["none", "canny", "depth", "depth_leres", "depth_leres++
 var modelNames = ["none", "control_v11e_sd15_ip2p [c4bb465c]", "control_v11e_sd15_shuffle [526bfdae]", "control_v11f1e_sd15_tile [a371b31b]", "control_v11f1p_sd15_depth [cfd03158]", "control_v11p_sd15_canny [d14c016b]", "control_v11p_sd15_inpaint [ebff9138]", "control_v11p_sd15_lineart [43d4be0d]", "control_v11p_sd15_mlsd [aca30ff0]", "control_v11p_sd15_normalbae [316696f1]", "control_v11p_sd15_openpose [cab727d4]", "control_v11p_sd15_scribble [d4ba51ff]", "control_v11p_sd15_seg [e1f51eb9]", "control_v11p_sd15_softedge [a8575a2a]", "control_v11p_sd15s2_lineart_anime [3825e83e]"];
 var getT2IParams = function getT2IParams(frame) {
   var comp = app.project.activeItem;
-  var layer = comp.selectedLayers[0];
+  layer = comp.selectedLayers[0];
   var effect = layer.property("ADBE Effect Parade").property("ADBE AESD");
   var paramValue = [];
-  var frameRate = comp.frameRate;
-  var time = frame / frameRate;
+  var time = frame / comp.frameRate;
+  var originalTime = comp.time; // Store the original comp time
+
   comp.time = time;
   var width = comp.width;
   var height = comp.height;
@@ -214,6 +188,101 @@ var getT2IParams = function getT2IParams(frame) {
     paramValue.push(effect.property("Guidance End " + i).value);
     paramValue.push(effect.property("Control Mode " + i).value);
   }
+  comp.time = originalTime;
+  return paramValue;
+};
+var getI2IParams = function getI2IParams(frame) {
+  var comp = app.project.activeItem;
+  layer = comp.selectedLayers[0];
+  var effect = layer.property("ADBE Effect Parade").property("ADBE AESD");
+  var paramValue = [];
+  var time = frame / comp.frameRate;
+  var originalTime = comp.time; // Store the original comp time
+
+  comp.time = time;
+  var width = comp.width;
+  var height = comp.height;
+  paramValue.push(effect.property("Denoising Strength").value);
+  paramValue.push(width);
+  paramValue.push(height);
+
+  // Retrieve the values of each parameter and get the corresponding names
+  var samplerMethodIndex = effect.property("Sampler Method").value;
+  paramValue.push(samplerMethodNames[samplerMethodIndex - 1]); // Adjust indexing
+
+  paramValue.push(effect.property("Steps").value);
+  paramValue.push(effect.property("Restore Faces").value);
+  paramValue.push(effect.property("CFG Scale").value);
+  var scriptIndex = effect.property("Scripts").value;
+  if (scriptIndex !== 0) {
+    paramValue.push(scriptNames[scriptIndex - 1]); // Adjust indexing
+  }
+
+  var numControlnets = 5;
+  for (var i = 1; i <= numControlnets; i++) {
+    paramValue.push(effect.property("Enable Controlnet " + i).value);
+    var preprocessorIndex = effect.property("Preprocessor " + i).value;
+    paramValue.push(preprocessorNames[preprocessorIndex - 1]); // Adjust indexing
+
+    var modelIndex = effect.property("Model " + i).value;
+    paramValue.push(modelNames[modelIndex - 1]); // Adjust indexing
+
+    paramValue.push(effect.property("Weight " + i).value);
+    paramValue.push(effect.property("Guidance Start " + i).value);
+    paramValue.push(effect.property("Guidance End " + i).value);
+    paramValue.push(effect.property("Control Mode " + i).value);
+  }
+  comp.time = originalTime; // Set the comp time back to the original value
+
+  alert(JSON.stringify(paramValue));
+  return paramValue;
+};
+var getI2IMaskParams = function getI2IMaskParams(frame) {
+  var comp = app.project.activeItem;
+  layer = comp.selectedLayers[0];
+  var effect = layer.property("ADBE Effect Parade").property("ADBE AESD");
+  var paramValue = [];
+  var time = frame / comp.frameRate;
+  var originalTime = comp.time; // Store the original comp time
+
+  comp.time = time;
+  var width = comp.width;
+  var height = comp.height;
+  paramValue.push(effect.property("Denoising Strength").value);
+  paramValue.push(width);
+  paramValue.push(height);
+  paramValue.push(effect.property("Resize Mode").value);
+  paramValue.push(effect.property("Mask Mode").value);
+  paramValue.push(effect.property("Masked Content").value);
+  paramValue.push(effect.property("Inpaint Area").value);
+  paramValue.push(effect.property("Only masked padding").value);
+  // Retrieve the values of each parameter and get the corresponding names
+  var samplerMethodIndex = effect.property("Sampler Method").value;
+  paramValue.push(samplerMethodNames[samplerMethodIndex - 1]); // Adjust indexing
+
+  paramValue.push(effect.property("Steps").value);
+  paramValue.push(effect.property("Restore Faces").value);
+  paramValue.push(effect.property("CFG Scale").value);
+  var scriptIndex = effect.property("Scripts").value;
+  if (scriptIndex !== 0) {
+    paramValue.push(scriptNames[scriptIndex - 1]); // Adjust indexing
+  }
+
+  var numControlnets = 5;
+  for (var i = 1; i <= numControlnets; i++) {
+    paramValue.push(effect.property("Enable Controlnet " + i).value);
+    var preprocessorIndex = effect.property("Preprocessor " + i).value;
+    paramValue.push(preprocessorNames[preprocessorIndex - 1]); // Adjust indexing
+
+    var modelIndex = effect.property("Model " + i).value;
+    paramValue.push(modelNames[modelIndex - 1]); // Adjust indexing
+
+    paramValue.push(effect.property("Weight " + i).value);
+    paramValue.push(effect.property("Guidance Start " + i).value);
+    paramValue.push(effect.property("Guidance End " + i).value);
+    paramValue.push(effect.property("Control Mode " + i).value);
+  }
+  comp.time = originalTime;
   return paramValue;
 };
 
@@ -301,8 +370,6 @@ var setup = function setup() {
     return;
   }
 };
-
-//get the current time as a frame #
 var getFrame = function getFrame() {
   var comp = app.project.activeItem;
   if (!comp || !(comp instanceof CompItem)) {
@@ -310,9 +377,47 @@ var getFrame = function getFrame() {
     return null;
   }
   var frameRate = comp.frameRate;
-  var time = comp.time;
-  var frame = time * frameRate;
+  var frame = Math.round(comp.time * frameRate); // Use Math.round to ensure an integer frame number
   return frame;
+};
+var getProjectPath = function getProjectPath() {
+  // Ensure a project is open
+  if (!app.project) {
+    alert("No project open");
+    return;
+  }
+
+  // Ensure the project has been saved at least once (it has a path)
+  if (!app.project.file) {
+    alert("Please save the project first");
+    return;
+  }
+
+  // Return the full path
+  var fullPath = app.project.file.fsName;
+
+  //remove the filename from the path
+  var path = fullPath.substring(0, fullPath.lastIndexOf('\\'));
+  alert(path);
+  return path;
+};
+
+//get the name of the selected layer
+var getLayerName = function getLayerName() {
+  var comp = app.project.activeItem;
+  if (!comp || !(comp instanceof CompItem)) {
+    alert("No comp selected!");
+    return null;
+  }
+  var layers = comp.selectedLayers;
+  if (layers.length < 1) {
+    alert("No layer selected!");
+    return null;
+  }
+  var layer = layers[0];
+  var layerName = layer.name;
+  alert(layerName);
+  return layerName;
 };
 
 var aeft = /*#__PURE__*/__objectFreeze({
@@ -323,9 +428,13 @@ var aeft = /*#__PURE__*/__objectFreeze({
   getlength: getlength,
   getPluginParams: getPluginParams,
   getT2IParams: getT2IParams,
+  getI2IParams: getI2IParams,
+  getI2IMaskParams: getI2IMaskParams,
   getseed: getseed,
   setup: setup,
-  getFrame: getFrame
+  getFrame: getFrame,
+  getProjectPath: getProjectPath,
+  getLayerName: getLayerName
 });
 
 var main;
