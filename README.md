@@ -1,3 +1,14 @@
+## Pre-Release Build Out Now!
+This build is nearly complete-- most if not all feature should be working, but there will still be plenty of bugs. Error handling is not updated in this build either.
+#### Usage 
+- Copy the .aex file into your effect folder.
+- Install CEP extension as done previously.
+- Save your project, perform any edits/changes you want to on it
+- after adding your masks/changes, add the After Diffusion Effect. It'll be found under Effects>Generate>AESD, or you can search for it. It works based on the selected layer.
+  - Whatever you have the effect applied to, it will automatically create your input images for you in the background. 
+- Adjust your settings for SD in the effect, keyframe, do whatever you want, then hit the generate button (far right side of UI)
+
+
 ## Estimated Release Period
 I'm currently working hard to finalize the After-Diffusion V2.0 release. I anticipate that the release will be ready within the next two weeks. Please stay tuned for further updates and announcements.
 
