@@ -68,8 +68,8 @@ A CEP Extension for Adobe After Effects that allows for seamless integration of 
    `C:\Program Files\Adobe\Adobe After Effects 2023\Support Files\Plug-ins\Effects`.
 
 ## Usage
-Make sure your SD webUI has been started and is fully loaded, ready to go.
-To use the After-Diffusion CEP extension and Pseudo Effect, follow these steps:
+- Make sure your SD webUI has been started and is fully loaded, ready to go.
+- To use the After-Diffusion CEP extension and Pseudo Effect, follow these steps:
 1. Open your project in After Effects and make the desired modifications.
 2. Rename the layer you want to work with to a simple name like "layer," "comp," or "video" without any extra numbers or symbols.
 3. Save the project.
