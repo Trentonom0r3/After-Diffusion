@@ -81,7 +81,7 @@ To use the After-Diffusion CEP extension and Pseudo Effect, follow these steps:
 - Sometimes, the image may appear non-existent even if it should be there. To resolve this, change a parameter in the effect, which should fix the issue.
 - If the user adds new effects after the AESD effect, the AESD effect output will not reflect the new effects. To fix this, move the AESD effect below all other effects.
 - If the images aren't updating properly, start from time 0, press the space bar, and let After Effects RAM render, which will force the images to update.
-
+- The layer source control in the custom effect doesn't actually do anything. I'm wanting to eventually have this determine what the effect acts upon.
 
 ## Tested System Specifications
 
