@@ -85,7 +85,7 @@ A CEP Extension for Adobe After Effects that allows for seamless integration of 
 - The layer source control in the custom effect doesn't actually do anything. I'm wanting to eventually have this determine what the effect acts upon.
 
 ## Tested System Specifications
-
+- Keep in mind, this is only what my laptop has, restrictions will be based primarily on webUI, and After Effects itself. 
 - **Processor:**
   - Processor: 12th Gen Intel(R) Core(TM) i7-12700H
   - Number of Cores: 20
