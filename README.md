@@ -10,7 +10,7 @@ A CEP Extension for Adobe After Effects that allows for seamless integration of 
   - Seamless Integration: The UI blends into After Effects, providing a native look and feel.
   - Custom Override Settings: Users can personalize their experience using custom settings.
   - Settings Panel: Includes options to change the API URL for collab and --nowebui users.
-
+  - Folder Button Currently does nothing. Working on a few different implementations and will update once I finalize the workflow. 
 
 ![UI](https://github.com/Trentonom0r3/After-Diffusion/assets/130304830/49efb4c9-796e-4c2b-a8d6-590fee2940d0)
 
