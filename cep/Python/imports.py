@@ -10,7 +10,7 @@ def check_and_install(package):
         subprocess.check_call(["python", "-m", "pip", "install", package])
         print(f"{package} has been installed successfully")
 
-required_packages = ['opencv-python', 'os', 'base64', 'json', 'requests', 'tempfile', 'time', 'flask']
+required_packages = ['os', 'base64', 'json', 'requests', 'tempfile', 'time', 'flask']
 
 for package in required_packages:
     check_and_install(package)

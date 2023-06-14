@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <ExtensionManifest
 Version="6.0"
-ExtensionBundleId="com.After-Diffusion.cep"
+ExtensionBundleId="com.AESD.cep"
 ExtensionBundleVersion="0.0.1"
-ExtensionBundleName="After Diffusion"
+ExtensionBundleName="AESD                                                         "
 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 >
 <ExtensionList>
-  <Extension Id="com.After-Diffusion.cep.main" Version="0.0.1" />
+  <Extension Id="com.AESD.cep.main" Version="0.0.1" />
 </ExtensionList>
 <ExecutionEnvironment>
   <HostList>
@@ -21,7 +21,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   </RequiredRuntimeList>
 </ExecutionEnvironment>
 <DispatchInfoList>
-  <Extension Id="com.After-Diffusion.cep.main">
+  <Extension Id="com.AESD.cep.main">
     <DispatchInfo>
       <Resources>
         <MainPath>./main/index.html</MainPath>
@@ -36,11 +36,11 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       </Lifecycle>
       <UI>
         <Type>Panel</Type>
-        <Menu>After Diffusion</Menu>
+        <Menu>AESD</Menu>
         <Geometry>
           <Size>
-            <Width>300</Width>
-            <Height>450</Height>
+            <Width>100</Width>
+            <Height>200</Height>
           </Size>
         </Geometry>
         <Icons>
