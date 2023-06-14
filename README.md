@@ -20,7 +20,7 @@ A CEP Extension for Adobe After Effects that allows for seamless integration of 
       - Controlnet Input Image in progress. You'll be able to key-frame this as well, which could be incredibly useful for temporal coherence when combined with other techniques.
   - will create images based on the quality you have set.
   - if image is 1920x1080, and quality is 50%, image is saved at 960x540.
-  - will be updating with option for latent upscale for cases where you want to work woth lower quality inputs.
+  - will be updating with option for latent upscale for cases where you want to work with lower quality inputs.
 
 ![c++ (1)](https://github.com/Trentonom0r3/After-Diffusion/assets/130304830/63a44309-f7e3-4221-8fbd-1221630d3c1a)
 
