@@ -77,7 +77,7 @@ To install the required packages, you have two options:
 - Alternatively, you can manually install the required packages using the following pip command:
 
     ```
-    pip install opencv-python requests flask
+    pip install requests flask
     ```
 #### Automatic1111
 - Make sure you've added "--api" as an argument to your webui-user.bat file!
