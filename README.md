@@ -9,7 +9,7 @@ A CEP Extension for Adobe After Effects that allows for seamless integration of 
   - New UI: The extension now features a new UI with 7 simple buttons for an improved user experience.
   - Seamless Integration: The UI blends into After Effects, providing a native look and feel.
   - Custom Override Settings: Users can personalize their experience using custom settings.
-  - Settings Panel: Includes options to change the API URL for collaboration and --nowebui users.
+  - Settings Panel: Includes options to change the API URL for collab and --nowebui users.
 
 - **Pseudo Effect (Complete):**
   - Key-frameable Parameters: The Pseudo Effect supports key-framing of parameters.
