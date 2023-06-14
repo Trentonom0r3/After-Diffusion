@@ -67,6 +67,21 @@ A CEP Extension for Adobe After Effects that allows for seamless integration of 
 2. Copy the .aex file into the After Effects effects folder, which is commonly found at:
    `C:\Program Files\Adobe\Adobe After Effects 2023\Support Files\Plug-ins\Effects`.
 
+### Python Requirements
+To install the required packages, you have two options:
+
+#### Option 1: Running the Extension
+- You can run the extension, which should automatically install the necessary dependencies for you.
+
+#### Option 2: Manual Installation
+- Alternatively, you can manually install the required packages using the following pip command:
+
+    ```
+    pip install opencv-python requests flask
+    ```
+#### Automatic1111
+- Make sure you've added "--api" as an argument to your webui-user.bat file!
+
 ## Usage
 - Make sure your SD webUI has been started and is fully loaded, ready to go.
 - To use the After-Diffusion CEP extension and Pseudo Effect, follow these steps:
