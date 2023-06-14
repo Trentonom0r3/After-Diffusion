@@ -2,8 +2,8 @@
 
 var config = {
   version: version,
-  id: "com.After-Diffusion.cep",
-  displayName: "After Diffusion",
+  id: "com.AESD.cep",
+  displayName: "AESD                                                         ",
   symlink: "local",
   port: 3000,
   servePort: 5000,
@@ -20,15 +20,15 @@ var config = {
   iconDarkNormalRollOver: "./src/assets/light-icon.png",
   iconNormalRollOver: "./src/assets/dark-icon.png",
   parameters: ["--v=0", "--enable-nodejs", "--mixed-context"],
-  width: 500,
-  height: 550,
+  width: 400,
+  height: 400,
   panels: [{
     mainPath: "./main/index.html",
     name: "main",
-    panelDisplayName: "After Diffusion",
+    panelDisplayName: "AESD",
     autoVisible: true,
-    width: 300,
-    height: 450
+    width: 100,
+    height: 200
   }],
   build: {
     jsxBin: "off",
@@ -50,56 +50,30 @@ var config = {
 
 var ns = config.id;
 
-// aeft/aeft.ts
-//imports response image at the CTI
-var importImageAtCTI = function importImageAtCTI(imagePath) {
-  var comp = app.project.activeItem;
-  if (!(comp instanceof CompItem)) {
-    console.log("No active composition.");
-    return {
-      success: false,
-      message: "No active composition."
-    };
+var comp = null;
+var layer = null;
+var initialize = function initialize() {
+  comp = app.project.activeItem;
+  if (!comp) {
+    alert("No composition is selected. Please select a composition.");
+    throw new Error("No composition selected");
   }
-  var imageFile = new File(imagePath);
-  var importedImage = app.project.importFile(new ImportOptions(imageFile));
-  var imageLayer = comp.layers.add(importedImage);
-  imageLayer.startTime = comp.time;
-  console.log("Image imported successfully.");
-  return {
-    success: true,
-    message: "Image imported successfully."
-  };
-};
-var getwidth = function getwidth() {
-  var comp = app.project.activeItem;
-  if (comp !== null && comp instanceof CompItem) {
-    var width = comp.width;
-    return width;
-  } else {
-    alert("Please select a composition first.");
+  layer = comp.selectedLayers[0];
+  if (!layer) {
+    alert("No layer is selected in the active composition. Please select a layer.");
+    throw new Error("No layer selected");
   }
-};
-var getheight = function getheight() {
-  var comp = app.project.activeItem;
-  if (comp !== null && comp instanceof CompItem) {
-    var height = comp.height;
-    return height;
-  } else {
-    alert("Please select a composition first.");
+  for (var i = 1; i <= layer.effect.numProperties; i++) {
+    if (layer.effect(i).matchname === "ADBE AESD") {
+      break;
+    }
   }
 };
 
-//get the CTI
-var getCTI = function getCTI() {
-  var comp = app.project.activeItem;
-  if (comp !== null && comp instanceof CompItem) {
-    var cti = comp.time;
-    var frameNum = Math.floor(cti / comp.frameDuration);
-    return frameNum;
-  } else {
-    alert("Please select a composition first.");
-  }
+//clear the selections
+var clearSelection = function clearSelection() {
+  comp = null;
+  layer = null;
 };
 function GetInitialSolidPosition(preComp) {
   if (!(preComp instanceof CompItem)) {
@@ -130,7 +104,8 @@ function PositionChange(preComp) {
 }
 
 //function ChangeComp() {
-var ChangeComp = function ChangeComp() {
+var checkAESD = function checkAESD() {
+  comp = app.project.activeItem;
   // Check if project file exists/has been saved
   if (app.project.file == null) {
     alert("Please save your project first.");
@@ -142,256 +117,52 @@ var ChangeComp = function ChangeComp() {
     return;
   }
   var solidLayer = null;
-  var videoLayer = null;
-
-  // Iterate over all layers in the composition to find the solid layer
-  for (var i = 1; i <= mainComp.numLayers; i++) {
-    var layer = mainComp.layer(i);
-    if (layer.name.toLowerCase().indexOf("solid") !== -1) {
-      solidLayer = layer;
-      break;
-    }
-  }
+  var otherlayer = null;
+  solidLayer = comp.selectedLayers[0];
   if (!solidLayer) {
     return;
   }
 
   // Find the video layer
-  videoLayer = mainComp.layer(mainComp.numLayers);
-  if (!videoLayer) {
+  otherlayer = comp.selectedLayers[1];
+  if (!otherlayer) {
     alert("Video layer not found.");
     return;
   }
   app.beginUndoGroup("Change Comp");
 
   // Duplicate and rename the video layer
-  var duplicatedVideoLayer = videoLayer.duplicate();
-  videoLayer.name = "Duplicated Video Layer";
+  var duplicatedVideoLayer = otherlayer.duplicate();
+  otherlayer.name = "Duplicated Video Layer";
 
   // Create a new pre-comp containing the solid and duplicated video layers
-  var preCompName = "New Pre-comp";
+  var preCompName = "New";
   var newPreComp = mainComp.layers.precompose([solidLayer.index, duplicatedVideoLayer.index], preCompName, true);
   var preCompLayer = mainComp.layer(newPreComp.name);
   var initialSolidPosition = GetInitialSolidPosition(preCompLayer.source);
   PositionChange(preCompLayer.source);
   preCompLayer.position.setValue([initialSolidPosition[0], initialSolidPosition[1]]);
+  preCompLayer.Effects.addProperty('ADBE AESD');
   app.endUndoGroup();
-
-  // Opens the new precomp
-  app.executeCommand(2523);
 };
 
-//function to set seed based on image
-var getseed = function getseed() {
-  // Get the active item (composition)
-  var comp = app.project.activeItem;
-  if (!comp || !(comp instanceof CompItem)) {
-    alert("No comp selected!");
-    return null;
-  }
-
-  // Get the selected layers
-  var layers = comp.selectedLayers;
-  if (layers.length < 1) {
-    alert("No layer selected!");
-    return null;
-  }
-
-  // Get the first selected layer
-  var layer = layers[0];
-
-  // Get the layer's name
-  var layerName = layer.name;
-
-  // Use a regular expression to extract the number from the layer's name
-  var match = layerName.match(/image_(\d+)\_(\d+)\.png/);
-  if (match) {
-    // If the regex matched, return the number
-    return match[1];
-  } else {
-    // If the regex did not match, alert an error and return null
-    alert("The layer's name does not match the expected format!");
-    return null;
-  }
-};
-var getlength = function getlength() {
-  var comp = app.project.activeItem;
-  if (comp !== null && comp instanceof CompItem) {
-    var lengthInFrames = Math.round(comp.duration * comp.frameRate);
-    return lengthInFrames;
-  } else {
-    alert("Please select a composition first.");
-  }
-};
-function checkRotoscope(layer) {
-  for (var i = 1; i <= layer('Effects').numProperties; i++) {
-    if (layer('Effects')(i).matchName === "ADBE Samurai") {
+// Helper function to check if a composition exists
+function compExists(name) {
+  for (var i = 1; i <= app.project.numItems; i++) {
+    if (app.project.item(i).name === name && app.project.item(i) instanceof CompItem) {
       return true;
     }
   }
   return false;
 }
-function checkCompSize(comp, layer) {
-  if (comp.width != layer.width || comp.height != layer.height) {
-    return true;
-  }
-  return false;
-}
-function checkInputLayer(comp) {
-  // Iterate over the layers in the comp
-  for (var i = 1; i <= comp.layers.length; i++) {
-    var layer = comp.layers[i];
-    // Check if the layer name contains the word 'Input'
-    if (layer.name.indexOf('Input') !== -1) {
-      return true;
-    }
-  }
-  return false;
-}
-var RenderCheck = function RenderCheck() {
-  var comp = app.project.activeItem;
-  if (!comp || !(comp instanceof CompItem)) {
-    alert("No comp selected.");
-    return;
-  }
-  var rotoscopeExists = false;
-  var compSizeDifferent = false;
-  var inputLayerExists = false;
 
-  // Iterate over the layers in the comp
-  for (var i = 1; i <= comp.layers.length; i++) {
-    var layer = comp.layers[i];
-    if (checkRotoscope(layer)) {
-      rotoscopeExists = true;
-    }
-    if (checkCompSize(comp, layer)) {
-      compSizeDifferent = true;
-    }
-  }
-  inputLayerExists = checkInputLayer(comp);
-  if (rotoscopeExists) {
-    MaskComp();
-    return;
-  }
-  if (compSizeDifferent) {
-    RegularComp();
-    return;
-  }
-  if (!inputLayerExists) {
-    RegularComp();
-    return;
-  }
-};
-function RegularComp() {
-  // Get the active composition
-  var precomp = app.project.activeItem;
-  if (precomp !== null && precomp instanceof CompItem) {
-    // Save the comp for later use
-    var savedComp = precomp;
-
-    // Define the video name and output paths
-    precomp.name.split(".")[0];
-    var pluginFolderPath = app.project.file.path;
-    //if pluginfolderpath isn't found, alert saying to save the project.
-    if (pluginFolderPath === "") {
-      alert("Please save the project before rendering.");
-      return;
-    }
-
-    // Set the render settings
-    var renderQueue = app.project.renderQueue;
-    var render1 = renderQueue.items.add(precomp);
-    var outputModule = render1.outputModule(1);
-
-    // Setting the output file type to QuickTime video (mov)
-    outputModule.applyTemplate("H.264 - Match Render Settings - 40 Mbps");
-    render1.applyTemplate("Best Settings");
-    render1.setSetting("Effects", "All Off");
-
-    // Set the output file name and folder for the video
-    var counter = 1;
-    var outputFilePath;
-    var file;
-    do {
-      outputFilePath = pluginFolderPath + "/" + "Input" + counter + ".mp4";
-      file = new File(outputFilePath);
-      counter++;
-    } while (file.exists);
-    outputModule.file = file;
-    // Start the render and wait for it to finish
-    renderQueue.render();
-    while (render1.status != RQItemStatus.DONE) {
-      $.sleep(100);
-    }
-
-    // Import the rendered video back into the composition
-    var importedVideo = app.project.importFile(new ImportOptions(new File(outputFilePath)));
-    savedComp.layers.add(importedVideo);
-
-    // Remove the original layer
-    savedComp.layer(savedComp.layers.length).remove();
-
-    // Show a message when rendering is complete
-  } else {
-    alert("Please select a composition first.");
-  }
-}
-
-//function to render the mask along with the video
-function MaskComp() {
-  var precomp = app.project.activeItem;
-  if (precomp !== null && precomp instanceof CompItem) {
-    var savedComp = precomp;
-    var pluginFolderPath = app.project.file.path;
-    var renderQueue = app.project.renderQueue;
-    var render1 = renderQueue.items.add(precomp);
-    var outputModule1 = render1.outputModule(1);
-    outputModule1.applyTemplate("H.264 - Match Render Settings - 40 Mbps");
-    render1.applyTemplate("Best Settings");
-    render1.setSetting("Effects", "All Off");
-    var counter = 1;
-    var outputFilePath;
-    var file;
-    do {
-      outputFilePath = pluginFolderPath + "/" + "Input" + counter + ".mp4";
-      file = new File(outputFilePath);
-      counter++;
-    } while (file.exists);
-    outputModule1.file = file;
-    var render2 = renderQueue.items.add(precomp);
-    var outputModule2 = render2.outputModule(1);
-    outputModule2.applyTemplate("Alpha Only");
-    counter = 1;
-    var MaskFilePath;
-    var Maskfile;
-    do {
-      MaskFilePath = pluginFolderPath + "/" + "Inpaint" + counter + ".mp4";
-      Maskfile = new File(MaskFilePath);
-      counter++;
-    } while (Maskfile.exists);
-    outputModule2.file = Maskfile;
-    renderQueue.render();
-    while (render1.status != RQItemStatus.DONE) {
-      $.sleep(100);
-    }
-    while (render2.status != RQItemStatus.DONE) {
-      $.sleep(100);
-    }
-    var importedMask = app.project.importFile(new ImportOptions(new File(MaskFilePath)));
-    savedComp.layers.add(importedMask);
-    var importedVideo = app.project.importFile(new ImportOptions(new File(outputFilePath)));
-    savedComp.layers.add(importedVideo);
-    savedComp.layer(savedComp.layers.length).remove();
-  } else {
-    alert("Please select a composition first.");
-  }
-}
+//importimageatframe
 var imageComp;
 var startNewImageComp = function startNewImageComp() {
   imageComp = null;
 };
+var mainComp = app.project.activeItem;
 var importImageAtFrame = function importImageAtFrame(imagePath, frame) {
-  var mainComp = app.project.activeItem;
   if (!(mainComp instanceof CompItem)) {
     alert("No active composition.");
     return;
@@ -418,419 +189,293 @@ var importImageAtFrame = function importImageAtFrame(imagePath, frame) {
   imageLayer.outPoint = timeInSeconds + durationInFrames / frameRate;
   return "Image imported successfully.";
 };
-
-// Helper function to check if a composition exists
-function compExists(name) {
-  for (var i = 1; i <= app.project.numItems; i++) {
-    if (app.project.item(i).name === name && app.project.item(i) instanceof CompItem) {
-      return true;
-    }
-  }
-  return false;
-}
-var comp;
-
-//function to get the path of the video and the frame#
-//function to get the path of the video and the frame#
-var initimagepayload = function initimagepayload(frame) {
-  if (!comp) {
-    comp = app.project.activeItem;
-  }
+var getlength = function getlength() {
   if (comp !== null && comp instanceof CompItem) {
-    comp.frameRate;
-
-    // look for a layer containing the word 'input'
-    var layer = null;
-    for (var i = 1; i <= comp.numLayers; i++) {
-      if (comp.layer(i).name.toLowerCase().indexOf('input') !== -1) {
-        layer = comp.layer(i);
-        break;
-      }
-    }
-    if (layer === null) {
-      alert("No layer containing 'input' was found.");
-      return;
-    }
-    if (layer.source instanceof FootageItem) {
-      var footage = layer.source;
-      if (footage.mainSource.isStill) {
-        alert("The footage is not an image sequence.");
-      } else {
-        var sequenceFile = footage.mainSource.file;
-        var paddedFrameNum = ("00000" + frame).slice(-5);
-        var frameFile = new File(sequenceFile.parent.fsName + "/" + sequenceFile.displayName.replace(/(\d{5})(?=\.[^.]+$)/, paddedFrameNum));
-        var result = {
-          path: frameFile.fsName,
-          // the frame path value
-          frame: frame // the frame number at CTI
-        };
-
-        return JSON.stringify(result);
-      }
-    } else {
-      alert("The selected layer is not a FootageItem.");
-    }
+    var lengthInFrames = Math.round(comp.duration * comp.frameRate);
+    return lengthInFrames;
   } else {
     alert("Please select a composition first.");
   }
 };
 
-//function to get the path of the video and the frame#
-var maskimagepayload = function maskimagepayload(frame) {
-  if (!comp) {
-    comp = app.project.activeItem;
-  }
-  if (comp !== null && comp instanceof CompItem) {
-    comp.frameRate;
-
-    // look for a layer containing the word 'Inpaint'
-    var layer = null;
-    for (var i = 1; i <= comp.numLayers; i++) {
-      if (comp.layer(i).name.indexOf('Inpaint') !== -1) {
-        layer = comp.layer(i);
-        break;
-      }
-    }
-    if (layer === null) {
-      alert("No layer containing 'Inpaint' was found.");
-      return;
-    }
-    if (layer.source instanceof FootageItem) {
-      var footage = layer.source;
-      if (footage.mainSource.isStill) {
-        alert("The footage is not an image sequence.");
-      } else {
-        var sequenceFile = footage.mainSource.file;
-        var paddedFrameNum = ("00000" + frame).slice(-5);
-        var frameFile = new File(sequenceFile.parent.fsName + "/" + sequenceFile.displayName.replace(/(\d{5})(?=\.[^.]+$)/, paddedFrameNum));
-        var result = {
-          path: frameFile.fsName,
-          // the frame path value
-          frame: frame // the frame number at CTI
-        };
-
-        return JSON.stringify(result);
-      }
-    } else {
-      alert("The selected layer is not a FootageItem.");
-    }
-  } else {
-    alert("Please select a composition first.");
-  }
-};
-
-// Define the function
-var getPluginParams = function getPluginParams(comp) {
-  // Access the currently selected layer
+//modify to accept frame as path. Modify to get values from CEP, and modify to handle the different modes.
+var getPluginParams = function getPluginParams() {
   var layer = comp.selectedLayers[0];
-  if (!layer) {
-    alert("No layer selected.");
-    return;
-  }
+  var effect = layer.property("ADBE Effect Parade").property("ADBE AESD"); // Replace "ADBE AESD" with your effect match name
 
-  // Access the specified plugin
-  var plugin = layer.effect('ADBE AESD');
-  if (!plugin) {
-    alert("Plugin 'ADBE AESD' not found.");
-    return;
-  }
+  var paramValues = [];
+  var paramValue = [];
 
-  // Define mappings from dropdown indices to text values
-  var samplerMethodOptions = {
-    1: "Euler a",
-    2: "Euler",
-    3: "LMS",
-    4: "Heun",
-    5: "DPM2",
-    6: "DPM2 a",
-    7: "DPM++ 2S a",
-    8: "DPM++ 2M",
-    9: "DPM++ SDE",
-    10: "DPM fast",
-    11: "DPM adaptive",
-    12: "LMS Karras",
-    13: "DPM2 Karras",
-    14: "DPM2 a Karras",
-    15: "DPM++ 2S a Karras",
-    16: "DPM++ 2M Karras",
-    17: "DPM++ SDE Karras",
-    18: "DDIM",
-    19: "PLMS",
-    20: "UniPC"
-  };
-  var scriptsOptions = {
-    1: "None",
-    2: "img2img alternative test",
-    3: "loopback",
-    4: "outpainting mk2",
-    5: "poor man's outpainting",
-    6: "prompt matrix",
-    7: "prompts from file or textbox",
-    8: "sd upscale",
-    9: "x/y/z plot",
-    10: "controlnet m2m",
-    11: "depthmap"
-    // Add more options as needed
-  };
+  // Retrieve the values of each parameter
+  var typeLabel = "Type";
+  var batchLabel = "Batch";
+  var typeIndex = effect.property("Generation Type").value;
+  var batchValue = effect.property("Enable Batch").value;
 
-  var preprocessorOptions = {
-    1: "none",
-    2: "canny",
-    3: "depth",
-    4: "depth_leres",
-    5: "depth_leres++",
-    6: "hed",
-    7: "hed_safe",
-    8: "mediapipe_face",
-    9: "mlsd",
-    10: "normal_map",
-    11: "openpose",
-    12: "openpose_hand",
-    13: "openpose_face",
-    14: "openpose_faceonly",
-    15: "openpose_full",
-    16: "clip_vision",
-    17: "color",
-    18: "pidinet",
-    19: "pidinet_safe",
-    20: "pidinet_sketch",
-    21: "pidinet_scribble",
-    22: "scribble_xdog",
-    23: "scribble_hed",
-    24: "segmentation",
-    25: "threshold",
-    26: "depth_zoe",
-    27: "normal_bae",
-    28: "oneformer_coco",
-    29: "oneformer_ade20k",
-    30: "lineart",
-    31: "lineart_coarse",
-    32: "lineart_anime",
-    33: "lineart_standard",
-    34: "shuffle",
-    35: "tile_resample",
-    36: "invert",
-    37: "lineart_anime_denoise",
-    38: "reference_only",
-    39: "reference_adain",
-    40: "reference_adain+attn",
-    41: "inpaint"
-    // Add more options as needed
-  };
-
-  var modelOptions = {
-    1: "none",
-    2: "control_v11e_sd15_ip2p [c4bb465c]",
-    3: "control_v11e_sd15_shuffle [526bfdae]",
-    4: "control_v11f1e_sd15_tile [a371b31b]",
-    5: "control_v11f1p_sd15_depth [cfd03158]",
-    6: "control_v11p_sd15_canny [d14c016b]",
-    7: "control_v11p_sd15_inpaint [ebff9138]",
-    8: "control_v11p_sd15_lineart [43d4be0d]",
-    9: "control_v11p_sd15_mlsd [aca30ff0]",
-    10: "control_v11p_sd15_normalbae [316696f1]",
-    11: "control_v11p_sd15_openpose [cab727d4]",
-    12: "control_v11p_sd15_scribble [d4ba51ff]",
-    13: "control_v11p_sd15_seg [e1f51eb9]",
-    14: "control_v11p_sd15_softedge [a8575a2a]",
-    15: "control_v11p_sd15s2_lineart_anime [3825e83e]"
-    // Add more options as needed
-  };
-
-  var generationTypeOptions = {
+  // Mapping for "Type" options
+  var typeOptions = {
     1: "TXT2IMG",
     2: "IMG2IMG",
-    3: "IMG2IMG Inpaint"
+    3: "IMG2IMG_INPAINT"
   };
-  var controlModeOptions = {
-    1: "Balanced",
-    2: "My Prompt is More Important",
-    3: "Controlnet is More Important"
+  var batchoptions = {
+    0: "False",
+    1: "True"
   };
+  paramValue.push(typeLabel + ": " + typeOptions[typeIndex]);
+  paramValue.push(batchLabel + ": " + batchoptions[batchValue]);
+  paramValues.push(paramValue);
+  return paramValues;
+};
+var samplerMethodNames = ["Euler a", "Euler", "LMS", "Heun", "DPM2", "DPM2 a", "DPM++ 2S a", "DPM++ 2M", "DPM++ SDE", "DPM fast", "DPM adaptive", "LMS Karras", "DPM2 Karras", "DPM2 a Karras", "DPM++ 2S a Karras", "DPM++ 2M Karras", "DPM++ SDE Karras", "DDIM", "PLMS", "UniPC"];
+var scriptNames = ["None", "img2img alternative test", "loopback", "outpainting mk2", "poor man's outpainting", "prompt matrix", "prompts from file or textbox", "sd upscale", "x/y/z plot", "controlnet m2m", "depthmap"];
+var preprocessorNames = ["none", "canny", "depth", "depth_leres", "depth_leres++", "hed", "hed_safe", "mediapipe_face", "mlsd", "normal_map", "openpose", "openpose_hand", "openpose_face", "openpose_faceonly", "openpose_full", "clip_vision", "color", "pidinet", "pidinet_safe", "pidinet_sketch", "pidinet_scribble", "scribble_xdog", "scribble_hed", "segmentation", "threshold", "depth_zoe", "normal_bae", "oneformer_coco", "oneformer_ade20k", "lineart", "lineart_coarse", "lineart_anime", "lineart_standard", "shuffle", "tile_resample", "invert", "lineart_anime_denoise", "reference_only", "reference_adain", "reference_adain+attn", "inpaint"];
+var modelNames = ["none", "control_v11e_sd15_ip2p [c4bb465c]", "control_v11e_sd15_shuffle [526bfdae]", "control_v11f1e_sd15_tile [a371b31b]", "control_v11f1p_sd15_depth [cfd03158]", "control_v11p_sd15_canny [d14c016b]", "control_v11p_sd15_inpaint [ebff9138]", "control_v11p_sd15_lineart [43d4be0d]", "control_v11p_sd15_mlsd [aca30ff0]", "control_v11p_sd15_normalbae [316696f1]", "control_v11p_sd15_openpose [cab727d4]", "control_v11p_sd15_scribble [d4ba51ff]", "control_v11p_sd15_seg [e1f51eb9]", "control_v11p_sd15_softedge [a8575a2a]", "control_v11p_sd15s2_lineart_anime [3825e83e]"];
+var getT2IParams = function getT2IParams(frame) {
+  var effect = layer.property("ADBE Effect Parade").property("ADBE AESD");
+  var paramValue = [];
+  var time = frame / comp.frameRate;
+  var originalTime = comp.time; // Store the original comp time
 
-  // Define an object to store the plugin parameters
-  var params = {};
+  comp.time = time;
+  var width = layer.width;
+  var height = layer.height;
+  paramValue.push(width);
+  paramValue.push(height);
+  // Retrieve the values of each parameter and get the corresponding names
+  var samplerMethodIndex = effect.property("Sampler Method").value;
+  paramValue.push(samplerMethodNames[samplerMethodIndex - 1]); // Adjust indexing
 
-  // Retrieve the selected layer index from the plugin
-  var selectedLayerIndex = plugin.property("Input").value;
-
-  // Get the composition reference
-  var comp = app.project.activeItem;
-  if (comp && comp instanceof CompItem) {
-    // Check if the selected layer index is valid
-    if (selectedLayerIndex >= 1 && selectedLayerIndex <= comp.numLayers) {
-      // Get the selected layer
-      var selectedLayer = comp.layer(selectedLayerIndex);
-
-      // Get the source file path
-      if (selectedLayer.source) {
-        var sourceFile = selectedLayer.source.file;
-        if (sourceFile) {
-          params.sourcePath = sourceFile.fsName; // Use fsName to get the full file path
-        } else {
-          params.sourcePath = "No source assigned";
-        }
-      } else {
-        params.sourcePath = "No source assigned";
-      }
-
-      // Get the current frame
-      params.currentFrame = Math.round(comp.frameRate * comp.time);
-    } else {
-      params.sourcePath = "Invalid layer index";
-      params.currentFrame = 0;
-    }
-  } else {
-    params.sourcePath = "No composition selected";
-    params.currentFrame = 0;
+  paramValue.push(effect.property("Steps").value);
+  paramValue.push(effect.property("Restore Faces").value);
+  paramValue.push(effect.property("CFG Scale").value);
+  var scriptIndex = effect.property("Scripts").value;
+  if (scriptIndex !== 0) {
+    paramValue.push(scriptNames[scriptIndex - 1]); // Adjust indexing
   }
-  params.samplerMethod = samplerMethodOptions[plugin.property("Sampler Method").value];
-  params.steps = plugin.property("Steps").value;
-  params.cfgScale = plugin.property("CFG Scale").value;
-  params.denoisingStrength = plugin.property("Denoising Strength").value;
-  params.scripts = scriptsOptions[plugin.property("Scripts").value];
-  params.generationType = generationTypeOptions[plugin.property("Generation Type").value];
-  params.controlnet1 = {
-    enable: plugin.property("Enable Controlnet 1").value,
-    preprocessor: preprocessorOptions[plugin.property("Preprocessor").value],
-    model: modelOptions[plugin.property("Model").value],
-    weight: plugin.property("Weight").value,
-    guidanceStart: plugin.property("Guidance Start").value,
-    guidanceEnd: plugin.property("Guidance End").value,
-    controlMode: controlModeOptions[plugin.property("Control Mode").value]
-  };
-  params.controlnet2 = {
-    enable: plugin.property("Enable Controlnet 2").value,
-    preprocessor: preprocessorOptions[plugin.property("Preprocessor").value],
-    model: modelOptions[plugin.property("Model").value],
-    weight: plugin.property("Weight").value,
-    guidanceStart: plugin.property("Guidance Start").value,
-    guidanceEnd: plugin.property("Guidance End").value,
-    controlMode: controlModeOptions[plugin.property("Control Mode").value]
-  };
-  params.controlnet3 = {
-    enable: plugin.property("Enable Controlnet 3").value,
-    preprocessor: preprocessorOptions[plugin.property("Preprocessor").value],
-    model: modelOptions[plugin.property("Model").value],
-    weight: plugin.property("Weight").value,
-    guidanceStart: plugin.property("Guidance Start").value,
-    guidanceEnd: plugin.property("Guidance End").value,
-    controlMode: controlModeOptions[plugin.property("Control Mode").value]
-  };
-  params.controlnet4 = {
-    enable: plugin.property("Enable Controlnet 4").value,
-    preprocessor: preprocessorOptions[plugin.property("Preprocessor").value],
-    model: modelOptions[plugin.property("Model").value],
-    weight: plugin.property("Weight").value,
-    guidanceStart: plugin.property("Guidance Start").value,
-    guidanceEnd: plugin.property("Guidance End").value,
-    controlMode: controlModeOptions[plugin.property("Control Mode").value]
-  };
-  params.controlnet5 = {
-    enable: plugin.property("Enable Controlnet 5").value,
-    preprocessor: preprocessorOptions[plugin.property("Preprocessor").value],
-    model: modelOptions[plugin.property("Model").value],
-    weight: plugin.property("Weight").value,
-    guidanceStart: plugin.property("Guidance Start").value,
-    guidanceEnd: plugin.property("Guidance End").value,
-    controlMode: controlModeOptions[plugin.property("Control Mode").value]
-  };
-  var payload = {
-    images: {
-      path: params.sourcePath,
-      frame: params.currentFrame
-    },
-    sampler: params.samplerMethod,
-    steps: params.steps,
-    cfg_scale: params.cfgScale,
-    denoising_strength: params.denoisingStrength,
-    script_name: params.scripts,
-    mode: 4,
-    //add mode options
-    inpainting_fill: 1,
-    //add inpainting fill options
-    enableControlnet: {
-      alwayson_scripts: {
-        controlnet: {
-          args: [{
-            enabled: params.controlnet1.enable,
-            module: params.controlnet1.preprocessor,
-            model: params.controlnet1.model,
-            weight: params.controlnet1.weight,
-            resize_mode: 1,
-            //add resize mode options
-            low_vram: false,
-            //add checkbox
-            guidance_start: params.controlnet1.guidanceStart,
-            guidance_end: params.controlnet1.guidanceEnd,
-            pixel_perfect: true
-          }, {
-            enabled: params.controlnet2.enable,
-            module: params.controlnet2.preprocessor,
-            model: params.controlnet2.model,
-            weight: params.controlnet2.weight,
-            resize_mode: 1,
-            low_vram: false,
-            guidance_start: params.controlnet2.guidanceStart,
-            guidance_end: params.controlnet2.guidanceEnd,
-            pixel_perfect: true
-          }, {
-            enabled: params.controlnet3.enable,
-            module: params.controlnet3.preprocessor,
-            model: params.controlnet3.model,
-            weight: params.controlnet3.weight,
-            resize_mode: 1,
-            low_vram: false,
-            guidance_start: params.controlnet3.guidanceStart,
-            guidance_end: params.controlnet3.guidanceEnd,
-            pixel_perfect: true
-          }, {
-            enabled: params.controlnet4.enable,
-            module: params.controlnet4.preprocessor,
-            model: params.controlnet4.model,
-            weight: params.controlnet4.weight,
-            resize_mode: 1,
-            low_vram: false,
-            guidance_start: params.controlnet4.guidanceStart,
-            guidance_end: params.controlnet4.guidanceEnd,
-            pixel_perfect: true
-          }, {
-            enabled: params.controlnet5.enable,
-            module: params.controlnet5.preprocessor,
-            model: params.controlnet5.model,
-            weight: params.controlnet5.weight,
-            resize_mode: 1,
-            low_vram: false,
-            guidance_start: params.controlnet5.guidanceStart,
-            guidance_end: params.controlnet5.guidanceEnd,
-            pixel_perfect: true
-          }]
-        }
-      }
-    }
-  };
-  alert(JSON.stringify(payload));
-  return payload;
+
+  var numControlnets = 5;
+  for (var i = 1; i <= numControlnets; i++) {
+    paramValue.push(effect.property("Enable Controlnet " + i).value);
+    var preprocessorIndex = effect.property("Preprocessor " + i).value;
+    paramValue.push(preprocessorNames[preprocessorIndex - 1]); // Adjust indexing
+
+    var modelIndex = effect.property("Model " + i).value;
+    paramValue.push(modelNames[modelIndex - 1]); // Adjust indexing
+
+    paramValue.push(effect.property("Weight " + i).value);
+    paramValue.push(effect.property("Guidance Start " + i).value);
+    paramValue.push(effect.property("Guidance End " + i).value);
+    paramValue.push(effect.property("Control Mode " + i).value);
+  }
+  comp.time = originalTime;
+  return paramValue;
+};
+var getI2IParams = function getI2IParams(frame) {
+  var comp = app.project.activeItem;
+  var effect = layer.property("ADBE Effect Parade").property("ADBE AESD");
+  var paramValue = [];
+  var time = frame / comp.frameRate;
+  var originalTime = comp.time; // Store the original comp time
+
+  comp.time = time;
+  var width = layer.width;
+  var height = layer.height;
+  paramValue.push(effect.property("Denoising Strength").value);
+  paramValue.push(width);
+  paramValue.push(height);
+
+  // Retrieve the values of each parameter and get the corresponding names
+  var samplerMethodIndex = effect.property("Sampler Method").value;
+  paramValue.push(samplerMethodNames[samplerMethodIndex - 1]); // Adjust indexing
+
+  paramValue.push(effect.property("Steps").value);
+  paramValue.push(effect.property("Restore Faces").value);
+  paramValue.push(effect.property("CFG Scale").value);
+  var scriptIndex = effect.property("Scripts").value;
+  if (scriptIndex !== 0) {
+    paramValue.push(scriptNames[scriptIndex - 1]); // Adjust indexing
+  }
+
+  var numControlnets = 5;
+  for (var i = 1; i <= numControlnets; i++) {
+    paramValue.push(effect.property("Enable Controlnet " + i).value);
+    var preprocessorIndex = effect.property("Preprocessor " + i).value;
+    paramValue.push(preprocessorNames[preprocessorIndex - 1]); // Adjust indexing
+
+    var modelIndex = effect.property("Model " + i).value;
+    paramValue.push(modelNames[modelIndex - 1]); // Adjust indexing
+
+    paramValue.push(effect.property("Weight " + i).value);
+    paramValue.push(effect.property("Guidance Start " + i).value);
+    paramValue.push(effect.property("Guidance End " + i).value);
+    paramValue.push(effect.property("Control Mode " + i).value);
+  }
+  comp.time = originalTime; // Set the comp time back to the original value
+
+  return paramValue;
+};
+var getI2IMaskParams = function getI2IMaskParams(frame) {
+  var comp = app.project.activeItem;
+  var effect = layer.property("ADBE Effect Parade").property("ADBE AESD");
+  var paramValue = [];
+  var time = frame / comp.frameRate;
+  var originalTime = comp.time; // Store the original comp time
+
+  comp.time = time;
+  var width = layer.width;
+  var height = layer.height;
+  paramValue.push(effect.property("Denoising Strength").value);
+  paramValue.push(width);
+  paramValue.push(height);
+  paramValue.push(effect.property("Resize Mode").value);
+  paramValue.push(effect.property("Mask Mode").value);
+  paramValue.push(effect.property("Masked Content").value);
+  paramValue.push(effect.property("Inpaint Area").value);
+  paramValue.push(effect.property("Only masked padding").value);
+  // Retrieve the values of each parameter and get the corresponding names
+  var samplerMethodIndex = effect.property("Sampler Method").value;
+  paramValue.push(samplerMethodNames[samplerMethodIndex - 1]); // Adjust indexing
+
+  paramValue.push(effect.property("Steps").value);
+  paramValue.push(effect.property("Restore Faces").value);
+  paramValue.push(effect.property("CFG Scale").value);
+  var scriptIndex = effect.property("Scripts").value;
+  if (scriptIndex !== 0) {
+    paramValue.push(scriptNames[scriptIndex - 1]); // Adjust indexing
+  }
+
+  var numControlnets = 5;
+  for (var i = 1; i <= numControlnets; i++) {
+    paramValue.push(effect.property("Enable Controlnet " + i).value);
+    var preprocessorIndex = effect.property("Preprocessor " + i).value;
+    paramValue.push(preprocessorNames[preprocessorIndex - 1]); // Adjust indexing
+
+    var modelIndex = effect.property("Model " + i).value;
+    paramValue.push(modelNames[modelIndex - 1]); // Adjust indexing
+
+    paramValue.push(effect.property("Weight " + i).value);
+    paramValue.push(effect.property("Guidance Start " + i).value);
+    paramValue.push(effect.property("Guidance End " + i).value);
+    paramValue.push(effect.property("Control Mode " + i).value);
+  }
+  comp.time = originalTime;
+  return paramValue;
 };
 
-// Usage
-var comp = app.project.activeItem;
+//function to set seed based on image
+var getseed = function getseed() {
+  // Get the active item (composition)
+  var ccomp = app.project.activeItem;
+  if (!ccomp || !(ccomp instanceof CompItem)) {
+    alert("No comp selected!");
+    return null;
+  }
+
+  // Get the selected layers
+  var layers = ccomp.selectedLayers;
+  if (layers.length < 1) {
+    alert("No layer selected!");
+    return null;
+  }
+
+  // Get the first selected layer
+  var clayer = layers[0];
+
+  // Get the layer's name
+  var layerName = clayer.name;
+  // Use a regular expression to extract the number from the layer's name
+  var match = layerName.match(/image_(\d+)(?:_(\d+))?.png/);
+  if (match) {
+    // If the regex matched, return the number
+    return match[1];
+  } else {
+    // If the regex did not match, alert an error and return null
+    alert("The layer's name does not match the expected format!");
+    return null;
+  }
+};
+var getFrame = function getFrame() {
+  if (!comp || !(comp instanceof CompItem)) {
+    alert("No comp selected!");
+    return null;
+  }
+  var frameRate = comp.frameRate;
+  var frame = Math.round(comp.time * frameRate); // Use Math.round to ensure an integer frame number
+  return frame;
+};
+var getProjectPath = function getProjectPath() {
+  // Ensure a project is open
+  if (!app.project) {
+    alert("No project open");
+    return;
+  }
+
+  // Ensure the project has been saved at least once (it has a path)
+  if (!app.project.file) {
+    alert("Please save the project first");
+    return;
+  }
+
+  // Return the full path
+  var fullPath = app.project.file.fsName;
+
+  //remove the filename from the path
+  var path = fullPath.substring(0, fullPath.lastIndexOf('\\'));
+  return path;
+};
+
+//get the name of the selected layer
+var getLayerName = function getLayerName() {
+  if (!comp || !(comp instanceof CompItem)) {
+    alert("No comp selected!");
+    return null;
+  }
+  var layers = comp.selectedLayers;
+  if (layers.length < 1) {
+    alert("No layer selected!");
+    return null;
+  }
+  var layerName = layer.name;
+  return layerName;
+};
+
+//rename the selected layer
+var renameLayer = function renameLayer(newName) {
+  if (!comp || !(comp instanceof CompItem)) {
+    alert("No comp selected!");
+    return null;
+  }
+  var layers = comp.selectedLayers;
+  if (layers.length < 1) {
+    alert("No layer selected!");
+    return null;
+  }
+  //create a conter to have unique layer names
+  var counter = 0;
+  for (var i = 0; i < layers.length; i++) {
+    layers[i].name = newName + counter;
+    counter++;
+  }
+};
 
 var aeft = /*#__PURE__*/__objectFreeze({
   __proto__: null,
-  importImageAtCTI: importImageAtCTI,
-  getwidth: getwidth,
-  getheight: getheight,
-  getCTI: getCTI,
-  ChangeComp: ChangeComp,
-  getseed: getseed,
-  getlength: getlength,
-  RenderCheck: RenderCheck,
+  initialize: initialize,
+  clearSelection: clearSelection,
+  checkAESD: checkAESD,
   startNewImageComp: startNewImageComp,
   importImageAtFrame: importImageAtFrame,
-  initimagepayload: initimagepayload,
-  maskimagepayload: maskimagepayload,
-  getPluginParams: getPluginParams
+  getlength: getlength,
+  getPluginParams: getPluginParams,
+  getT2IParams: getT2IParams,
+  getI2IParams: getI2IParams,
+  getI2IMaskParams: getI2IMaskParams,
+  getseed: getseed,
+  getFrame: getFrame,
+  getProjectPath: getProjectPath,
+  getLayerName: getLayerName,
+  renameLayer: renameLayer
 });
 
 var main;
