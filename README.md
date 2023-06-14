@@ -11,10 +11,17 @@ A CEP Extension for Adobe After Effects that allows for seamless integration of 
   - Custom Override Settings: Users can personalize their experience using custom settings.
   - Settings Panel: Includes options to change the API URL for collab and --nowebui users.
 
+
+![UI](https://github.com/Trentonom0r3/After-Diffusion/assets/130304830/49efb4c9-796e-4c2b-a8d6-590fee2940d0)
+
 - **Pseudo Effect (Complete):**
   - Key-frameable Parameters: The Pseudo Effect supports key-framing of parameters.
   - Background Output: Changes applied through the effect are automatically outputted to the layer in the background.
       - Controlnet Input Image in progress. You'll be able to key-frame this as well, which could be incredibly useful for temporal coherence when combined with other techniques.
+
+![c++ (1)](https://github.com/Trentonom0r3/After-Diffusion/assets/130304830/63a44309-f7e3-4221-8fbd-1221630d3c1a)
+
+
 - **Backend Rework (Complete)**
 
 ## Table of Contents
