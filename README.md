@@ -83,7 +83,7 @@ A CEP Extension for Adobe After Effects that allows for seamless integration of 
 - If the user adds new effects after the AESD effect, the AESD effect output will not reflect the new effects. To fix this, move the AESD effect below all other effects.
 - If the images aren't updating properly, start from time 0, press the space bar, and let After Effects RAM render, which will force the images to update.
 - The layer source control in the custom effect doesn't actually do anything. I'm wanting to eventually have this determine what the effect acts upon.
-
+- Scripts do not have parameters yet. May have unpredictible results if used.
 ## Tested System Specifications
 - Keep in mind, this is only what my laptop has, restrictions will be based primarily on webUI, and After Effects itself. 
 - **Processor:**
