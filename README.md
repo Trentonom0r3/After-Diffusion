@@ -10,6 +10,9 @@ A CEP Extension for Adobe After Effects that allows for seamless integration of 
 - Layer Controls!
   - Determine your input, sketch, and control layers, even if the effect is on a different layer! 
 
+- Modified c++ Effect! 
+  - better UI design, more organized.
+
 - Marker Generation
   - Option to run SD only on frames corresponding to markers! 
 
