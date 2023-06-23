@@ -14,7 +14,12 @@ A CEP Extension for Adobe After Effects that allows for seamless integration of 
   - Option to run SD only on frames corresponding to markers! 
 
 - Loading Bar
-  - Get Real time updates from SD in the CEP extension' 
+  - Get Real time updates from SD in the CEP extension!
+
+- Work Area Fix
+  - Work with any work area, even when start is not at frame 0. 
+
+
 
 ## Updates in After-Diffusion V2.0
 
