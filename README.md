@@ -22,6 +22,20 @@ A CEP Extension for Adobe After Effects that allows for seamless integration of 
 - Work Area Fix
   - Work with any work area, even when start is not at frame 0. 
 
+- LORA Options
+
+## Coming Sooner or Later!
+
+- Audio Analysis for Keyframe Generation
+  - Analyze your audio, and output keyframes for specific points (kicks, hi-hats, groove, etc)
+
+- Temporal Coherence Pre-Alpha
+  - Out of all options, this will be the most iterative in design, and will require the most fine-tuning and changes.
+  - Put Simply, it is an Optical Flow, Depth Guided PatchMatch (similar to EBSYNTH, but using extra params to guide the synthesis, as opposed to random Patch Matching.)
+  - Current tests show great results on slower motion, i have yet to test for all types. 
+
+- Seed Tester/Finder
+  - Makes it easier to find the seed you like, without having to generate into the comp. 
 
 
 ## Updates in After-Diffusion V2.0
