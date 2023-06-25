@@ -51,6 +51,12 @@ A CEP Extension for Adobe After Effects that allows for seamless integration of 
 - [Tested System Specifications](#tested-system-specifications)
 
 ## Change Log
+### 6.25.23 
+   - Inpaint Sketch Support
+   - Layer Control Support
+   - CEP UI Live Progress Bar
+   - Dynamic C++ Parameters
+
 #### 6.12.23
    - Initial Release of After Diffusion v2.0. Full UI overhaul, custom c++ effect, and more!
 #### 5.25.23
