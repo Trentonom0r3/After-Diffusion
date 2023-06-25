@@ -2,28 +2,6 @@
 
 A CEP Extension for Adobe After Effects that allows for seamless integration of the Stable Diffusion Web-UI. Compatible with AE versions CC 2019 and up.
 
-## Coming Soon!
-
-- Sketch Mode 
-  - Use Paint tools within AE to use IMG2IMG Sketch!
-
-- Layer Controls!
-  - Determine your input, sketch, and control layers, even if the effect is on a different layer! 
-
-- Modified c++ Effect! 
-  - better UI design, more organized.
-
-- Marker Generation
-  - Option to run SD only on frames corresponding to markers! 
-
-- Loading Bar
-  - Get Real time updates from SD in the CEP extension!
-
-- Work Area Fix
-  - Work with any work area, even when start is not at frame 0. 
-
-- LORA Options
-
 ## Coming Sooner or Later!
 
 - Audio Analysis for Keyframe Generation
@@ -93,6 +71,10 @@ A CEP Extension for Adobe After Effects that allows for seamless integration of 
 - Less direct action in After Effects and more happening on the backend.
 - Keeps AE responsive and leads to faster overall generation and integration times.
 - New UI with 7 simple buttons for an improved user experience.
+- Inpaint Sketch Support Added
+ - Create a pre-comp of your "input" source, and use the paintbrush tool to begin painting on it.
+ - Under "Mask Options" Set your Sketch Layer to this new pre-comp, and set it to Effects + Masks
+ - Change Generation Type to Inpaint Sketch, and continue as normal!
 
 ## Installation
 
@@ -155,7 +137,7 @@ To install the required packages, you have two options:
   - RAM: 16 GB DDR5
 
 - **Video Card:**
-  - NVIDIA GeForce RTX 3060 Laptop GPU
+  - NVIDIA GeForce RTX 3060 Laptop GPU, 6GB vRAM
 
 
 

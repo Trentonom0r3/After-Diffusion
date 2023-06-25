@@ -50,30 +50,26 @@ var config = {
 
 var ns = config.id;
 
-var comp = null;
-var layer = null;
+var comp;
+var layer;
 var initialize = function initialize() {
-  comp = app.project.activeItem;
-  if (!comp) {
-    alert("No composition is selected. Please select a composition.");
-    throw new Error("No composition selected");
-  }
-  layer = comp.selectedLayers[0];
-  if (!layer) {
-    alert("No layer is selected in the active composition. Please select a layer.");
-    throw new Error("No layer selected");
-  }
-  for (var i = 1; i <= layer.effect.numProperties; i++) {
-    if (layer.effect(i).matchname === "ADBE AESD") {
-      break;
+  if (comp instanceof CompItem) {
+    comp = app.project.activeItem;
+    if (!comp) {
+      alert("No composition is selected. Please select a composition.");
+      throw new Error("No composition selected");
+    }
+    layer = comp.selectedLayers[0];
+    if (!layer) {
+      alert("No layer is selected in the active composition. Please select a layer.");
+      throw new Error("No layer selected");
+    }
+    for (var i = 1; i <= layer.effect.numProperties; i++) {
+      if (layer.effect(i).matchname === "ADBE AESD") {
+        break;
+      }
     }
   }
-};
-
-//clear the selections
-var clearSelection = function clearSelection() {
-  comp = null;
-  layer = null;
 };
 function GetInitialSolidPosition(preComp) {
   if (!(preComp instanceof CompItem)) {
@@ -111,8 +107,8 @@ var checkAESD = function checkAESD() {
     alert("Please save your project first.");
     return;
   }
-  var mainComp = app.project.activeItem;
-  if (!(mainComp instanceof CompItem)) {
+  var comp = app.project.activeItem;
+  if (!(comp instanceof CompItem)) {
     alert("Please select a composition.");
     return;
   }
@@ -137,8 +133,8 @@ var checkAESD = function checkAESD() {
 
   // Create a new pre-comp containing the solid and duplicated video layers
   var preCompName = "New";
-  var newPreComp = mainComp.layers.precompose([solidLayer.index, duplicatedVideoLayer.index], preCompName, true);
-  var preCompLayer = mainComp.layer(newPreComp.name);
+  var newPreComp = comp.layers.precompose([solidLayer.index, duplicatedVideoLayer.index], preCompName, true);
+  var preCompLayer = comp.layer(newPreComp.name);
   var initialSolidPosition = GetInitialSolidPosition(preCompLayer.source);
   PositionChange(preCompLayer.source);
   preCompLayer.position.setValue([initialSolidPosition[0], initialSolidPosition[1]]);
@@ -146,7 +142,17 @@ var checkAESD = function checkAESD() {
   app.endUndoGroup();
 };
 
-// Helper function to check if a composition exists
+//clear the selections
+var clearSelection = function clearSelection() {
+  comp = null;
+  layer = null;
+};
+
+//importimageatframe
+var imageComp;
+var startNewImageComp = function startNewImageComp() {
+  imageComp = null;
+};
 function compExists(name) {
   for (var i = 1; i <= app.project.numItems; i++) {
     if (app.project.item(i).name === name && app.project.item(i) instanceof CompItem) {
@@ -155,19 +161,12 @@ function compExists(name) {
   }
   return false;
 }
-
-//importimageatframe
-var imageComp;
-var startNewImageComp = function startNewImageComp() {
-  imageComp = null;
-};
-var mainComp = app.project.activeItem;
 var importImageAtFrame = function importImageAtFrame(imagePath, frame) {
-  if (!(mainComp instanceof CompItem)) {
+  if (!(comp instanceof CompItem)) {
     alert("No active composition.");
     return;
   }
-  var frameRate = mainComp.frameRate;
+  var frameRate = comp.frameRate;
   var timeInSeconds = frame / frameRate;
   var imageFile = new File(imagePath);
   var importedImage = app.project.importFile(new ImportOptions(imageFile));
@@ -180,8 +179,8 @@ var importImageAtFrame = function importImageAtFrame(imagePath, frame) {
       compName = 'imageComp' + compCounter;
       compCounter++;
     }
-    imageComp = app.project.items.addComp(compName, mainComp.width, mainComp.height, mainComp.pixelAspect, mainComp.duration, mainComp.frameRate);
-    mainComp.layers.add(imageComp);
+    imageComp = app.project.items.addComp(compName, comp.width, comp.height, comp.pixelAspect, comp.duration, comp.frameRate);
+    comp.layers.add(imageComp);
   }
   var imageLayer = imageComp.layers.add(importedImage);
   imageLayer.startTime = timeInSeconds;
@@ -197,10 +196,23 @@ var getlength = function getlength() {
     alert("Please select a composition first.");
   }
 };
+var getStartFrame = function getStartFrame() {
+  if (comp && comp instanceof CompItem) {
+    var frameRate = comp.frameRate;
+    var startTime = comp.displayStartTime;
+    var frame = Math.round(startTime * frameRate); // Adjust for composition start time
+
+    return frame < 0 ? -frame : frame; // Return positive frame number
+  } else {
+    alert("Please select a composition first.");
+    return null;
+  }
+};
 
 //modify to accept frame as path. Modify to get values from CEP, and modify to handle the different modes.
 var getPluginParams = function getPluginParams() {
-  var layer = comp.selectedLayers[0];
+  comp = app.project.activeItem;
+  layer = comp.selectedLayers[0];
   var effect = layer.property("ADBE Effect Parade").property("ADBE AESD"); // Replace "ADBE AESD" with your effect match name
 
   var paramValues = [];
@@ -216,7 +228,8 @@ var getPluginParams = function getPluginParams() {
   var typeOptions = {
     1: "TXT2IMG",
     2: "IMG2IMG",
-    3: "IMG2IMG_INPAINT"
+    3: "IMG2IMG_INPAINT",
+    4: "Inpaint Sketch"
   };
   var batchoptions = {
     0: "False",
@@ -328,7 +341,6 @@ var getI2IMaskParams = function getI2IMaskParams(frame) {
   paramValue.push(effect.property("Denoising Strength").value);
   paramValue.push(width);
   paramValue.push(height);
-  paramValue.push(effect.property("Resize Mode").value);
   paramValue.push(effect.property("Mask Mode").value);
   paramValue.push(effect.property("Masked Content").value);
   paramValue.push(effect.property("Inpaint Area").value);
@@ -401,9 +413,12 @@ var getFrame = function getFrame() {
     return null;
   }
   var frameRate = comp.frameRate;
-  var frame = Math.round(comp.time * frameRate); // Use Math.round to ensure an integer frame number
-  return frame;
+  var startTime = comp.displayStartTime;
+  var frame = Math.round((comp.time - startTime) * frameRate); // Adjust for composition start time
+
+  return frame < 0 ? -frame : frame; // Return positive frame number
 };
+
 var getProjectPath = function getProjectPath() {
   // Ensure a project is open
   if (!app.project) {
@@ -458,15 +473,29 @@ var renameLayer = function renameLayer(newName) {
     counter++;
   }
 };
+var sketchlayer;
+//function to create a new layer (in a pre comp), add the paint effect, and finally set the layer controls on the original layer.
+
+var createSketchLayer = function createSketchLayer() {
+  sketchlayer = layer.duplicate();
+  //create a new precomp
+  var precomp = comp.layers.precompose([sketchlayer.index], "sketch", true);
+  precomp.name = "sketch";
+  var precomplayer = comp.layer(precomp.name);
+  //set the value of the Sketch Layer control in ADBE AESD to the precomp
+  precomplayer.Effects.addProperty('ADBE Paint');
+  //set mode to effects+masks
+};
 
 var aeft = /*#__PURE__*/__objectFreeze({
   __proto__: null,
   initialize: initialize,
-  clearSelection: clearSelection,
   checkAESD: checkAESD,
+  clearSelection: clearSelection,
   startNewImageComp: startNewImageComp,
   importImageAtFrame: importImageAtFrame,
   getlength: getlength,
+  getStartFrame: getStartFrame,
   getPluginParams: getPluginParams,
   getT2IParams: getT2IParams,
   getI2IParams: getI2IParams,
@@ -475,7 +504,8 @@ var aeft = /*#__PURE__*/__objectFreeze({
   getFrame: getFrame,
   getProjectPath: getProjectPath,
   getLayerName: getLayerName,
-  renameLayer: renameLayer
+  renameLayer: renameLayer,
+  createSketchLayer: createSketchLayer
 });
 
 var main;
