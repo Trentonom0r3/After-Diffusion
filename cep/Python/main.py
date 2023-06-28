@@ -1,3 +1,5 @@
+import random
+import string
 from flask import Flask, request, jsonify
 import os
 import base64
@@ -112,8 +114,11 @@ def process_image2():
     temp_dir = tempfile.gettempdir()
 
     # Use the seed value in the file name
-    image_path = os.path.join(temp_dir, f'image_{seed}.png') if seed is not None else os.path.join(temp_dir, f'image_{int(time.time())}.png')
+   # Generate a random suffix for uniqueness
+    suffix = ''.join(random.choices(string.ascii_lowercase + string.digits, k=6))
 
+# Use the seed value in the file name
+    image_path = os.path.join(temp_dir, f'image_{seed}_{suffix}.png') if seed is not None else os.path.join(temp_dir, f'image_{int(time.time())}_{suffix}.png')
     with open(image_path, 'wb') as f:
         f.write(image_data)
 
