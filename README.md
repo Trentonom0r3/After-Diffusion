@@ -2,21 +2,7 @@
 
 A CEP Extension for Adobe After Effects that allows for seamless integration of the Stable Diffusion Web-UI. Compatible with AE versions CC 2019 and up.
 
-## Coming Sooner or Later!
-
-- Audio Analysis for Keyframe Generation
-  - Analyze your audio, and output keyframes for specific points (kicks, hi-hats, groove, etc)
-
-- Temporal Coherence Pre-Alpha
-  - Out of all options, this will be the most iterative in design, and will require the most fine-tuning and changes.
-  - Put Simply, it is an Optical Flow, Depth Guided PatchMatch (similar to EBSYNTH, but using extra params to guide the synthesis, as opposed to random Patch Matching.)
-  - Current tests show great results on slower motion, i have yet to test for all types. 
-
-- Seed Tester/Finder
-  - Makes it easier to find the seed you like, without having to generate into the comp. 
-
-
-## Updates in After-Diffusion V2.0
+## Main Feature Summary
   - New UI: The extension now features a new UI with 7 simple buttons for an improved user experience.
   - Seamless Integration: The UI blends into After Effects, providing a native look and feel.
   - Custom Override Settings: Users can personalize their experience using custom settings.
