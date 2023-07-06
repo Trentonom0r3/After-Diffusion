@@ -13,10 +13,6 @@ A CEP Extension for Adobe After Effects that allows for seamless integration of 
 
   - Key-frameable Parameters: The Pseudo Effect supports key-framing of parameters.
   - Background Output: Changes applied through the effect are automatically outputted to the layer in the background.
-      - Controlnet Input Image in progress. You'll be able to key-frame this as well, which could be incredibly useful for temporal coherence when combined with other techniques.
-  - will create images based on the quality you have set.
-  - if image is 1920x1080, and quality is 50%, image is saved at 960x540.
-  - will be updating with option for latent upscale for cases where you want to work with lower quality inputs.
 
 ![c++ (1)](https://github.com/Trentonom0r3/After-Diffusion/assets/130304830/63a44309-f7e3-4221-8fbd-1221630d3c1a)
 
@@ -32,6 +28,23 @@ A CEP Extension for Adobe After Effects that allows for seamless integration of 
 - [Tested System Specifications](#tested-system-specifications)
 
 ## Change Log
+### 7.5.23
+   - Fixed IMG2IMG Inpaint, now working properly.
+   - In all cases other than TXT2IMG, set 'Input' to the layer you want to generate for, and set 'Input' to either source, or masks.
+    ( You can use effects+masks as long as you don't have rotoscope applied)
+   Then, set the mask control to the same layer, and set it to effects and masks.
+   BOTH layer controls must be set, or your images will not be output.
+
+   - Draw a mask on the layer you have the effect applied to, and work with smaller areas more easily! 
+    - (This assumes the selection mask is rectangular)
+   - Resize Mode Options now working properly. (Useful when you want to use a lower quality input.)
+     - Creates images based on the viewer quality you have set.
+      - If image is 1920x1080 and quality is 50%, the image is saved at 960x540, and sent to SD at the layer size, default is simple resize.
+      - If a Mask is used, SD is sent to generate an image the size of the mask, and it is then place back into the comp at the same position.
+   - Added low Vram option to controlnet.
+   - Added mask blur slider to mask options.
+   - Started on Script Args. Visibile in c++ effect, but they don't affect generation, nor are they dynamically set up yet.
+
 ### 6.25.23 
    - Inpaint Sketch Support
    - Layer Control Support
