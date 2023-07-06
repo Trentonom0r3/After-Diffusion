@@ -1,4 +1,4 @@
-(function (thisObj) {// ----- EXTENDSCRIPT INCLUDES ------ //"object"!=typeof JSON&&(JSON={}),function(){"use strict";var rx_one=/^[\],:{}\s]*$/,rx_two=/\\(?:["\\\/bfnrt]|u[0-9a-fA-F]{4})/g,rx_three=/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g,rx_four=/(?:^|:|,)(?:\s*\[)+/g,rx_escapable=/[\\\"\u0000-\u001f\u007f-\u009f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,rx_dangerous=/[\u0000\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,gap,indent,meta,rep;function f(t){return t<10?"0"+t:t}function this_value(){return this.valueOf()}function quote(t){return rx_escapable.lastIndex=0,rx_escapable.test(t)?'"'+t.replace(rx_escapable,function(t){var e=meta[t];return"string"==typeof e?e:"\\u"+("0000"+t.charCodeAt(0).toString(16)).slice(-4)})+'"':'"'+t+'"'}function str(t,e){var r,n,o,u,f,a=gap,i=e[t];switch(i&&"object"==typeof i&&"function"==typeof i.toJSON&&(i=i.toJSON(t)),"function"==typeof rep&&(i=rep.call(e,t,i)),typeof i){case"string":return quote(i);case"number":return isFinite(i)?String(i):"null";case"boolean":case"null":return String(i);case"object":if(!i)return"null";if(gap+=indent,f=[],"[object Array]"===Object.prototype.toString.apply(i)){for(u=i.length,r=0;r<u;r+=1)f[r]=str(r,i)||"null";return o=0===f.length?"[]":gap?"[\n"+gap+f.join(",\n"+gap)+"\n"+a+"]":"["+f.join(",")+"]",gap=a,o}if(rep&&"object"==typeof rep)for(u=rep.length,r=0;r<u;r+=1)"string"==typeof rep[r]&&(o=str(n=rep[r],i))&&f.push(quote(n)+(gap?": ":":")+o);else for(n in i)Object.prototype.hasOwnProperty.call(i,n)&&(o=str(n,i))&&f.push(quote(n)+(gap?": ":":")+o);return o=0===f.length?"{}":gap?"{\n"+gap+f.join(",\n"+gap)+"\n"+a+"}":"{"+f.join(",")+"}",gap=a,o}}"function"!=typeof Date.prototype.toJSON&&(Date.prototype.toJSON=function(){return isFinite(this.valueOf())?this.getUTCFullYear()+"-"+f(this.getUTCMonth()+1)+"-"+f(this.getUTCDate())+"T"+f(this.getUTCHours())+":"+f(this.getUTCMinutes())+":"+f(this.getUTCSeconds())+"Z":null},Boolean.prototype.toJSON=this_value,Number.prototype.toJSON=this_value,String.prototype.toJSON=this_value),"function"!=typeof JSON.stringify&&(meta={"\b":"\\b","\t":"\\t","\n":"\\n","\f":"\\f","\r":"\\r",'"':'\\"',"\\":"\\\\"},JSON.stringify=function(t,e,r){var n;if(gap="",indent="","number"==typeof r)for(n=0;n<r;n+=1)indent+=" ";else"string"==typeof r&&(indent=r);if(rep=e,e&&"function"!=typeof e&&("object"!=typeof e||"number"!=typeof e.length))throw new Error("JSON.stringify");return str("",{"":t})}),"function"!=typeof JSON.parse&&(JSON.parse=function(text,reviver){var j;function walk(t,e){var r,n,o=t[e];if(o&&"object"==typeof o)for(r in o)Object.prototype.hasOwnProperty.call(o,r)&&(void 0!==(n=walk(o,r))?o[r]=n:delete o[r]);return reviver.call(t,e,o)}if(text=String(text),rx_dangerous.lastIndex=0,rx_dangerous.test(text)&&(text=text.replace(rx_dangerous,function(t){return"\\u"+("0000"+t.charCodeAt(0).toString(16)).slice(-4)})),rx_one.test(text.replace(rx_two,"@").replace(rx_three,"]").replace(rx_four,"")))return j=eval("("+text+")"),"function"==typeof reviver?walk({"":j},""):j;throw new SyntaxError("JSON.parse")})}();// ---------------------------------- //// ----- EXTENDSCRIPT PONYFILLS -----function __objectFreeze(obj) { return obj; }// ---------------------------------- //var version = "0.0.1";
+(function (thisObj) {// ----- EXTENDSCRIPT INCLUDES ------ //"object"!=typeof JSON&&(JSON={}),function(){"use strict";var rx_one=/^[\],:{}\s]*$/,rx_two=/\\(?:["\\\/bfnrt]|u[0-9a-fA-F]{4})/g,rx_three=/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g,rx_four=/(?:^|:|,)(?:\s*\[)+/g,rx_escapable=/[\\\"\u0000-\u001f\u007f-\u009f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,rx_dangerous=/[\u0000\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,gap,indent,meta,rep;function f(t){return t<10?"0"+t:t}function this_value(){return this.valueOf()}function quote(t){return rx_escapable.lastIndex=0,rx_escapable.test(t)?'"'+t.replace(rx_escapable,function(t){var e=meta[t];return"string"==typeof e?e:"\\u"+("0000"+t.charCodeAt(0).toString(16)).slice(-4)})+'"':'"'+t+'"'}function str(t,e){var r,n,o,u,f,a=gap,i=e[t];switch(i&&"object"==typeof i&&"function"==typeof i.toJSON&&(i=i.toJSON(t)),"function"==typeof rep&&(i=rep.call(e,t,i)),typeof i){case"string":return quote(i);case"number":return isFinite(i)?String(i):"null";case"boolean":case"null":return String(i);case"object":if(!i)return"null";if(gap+=indent,f=[],"[object Array]"===Object.prototype.toString.apply(i)){for(u=i.length,r=0;r<u;r+=1)f[r]=str(r,i)||"null";return o=0===f.length?"[]":gap?"[\n"+gap+f.join(",\n"+gap)+"\n"+a+"]":"["+f.join(",")+"]",gap=a,o}if(rep&&"object"==typeof rep)for(u=rep.length,r=0;r<u;r+=1)"string"==typeof rep[r]&&(o=str(n=rep[r],i))&&f.push(quote(n)+(gap?": ":":")+o);else for(n in i)Object.prototype.hasOwnProperty.call(i,n)&&(o=str(n,i))&&f.push(quote(n)+(gap?": ":":")+o);return o=0===f.length?"{}":gap?"{\n"+gap+f.join(",\n"+gap)+"\n"+a+"}":"{"+f.join(",")+"}",gap=a,o}}"function"!=typeof Date.prototype.toJSON&&(Date.prototype.toJSON=function(){return isFinite(this.valueOf())?this.getUTCFullYear()+"-"+f(this.getUTCMonth()+1)+"-"+f(this.getUTCDate())+"T"+f(this.getUTCHours())+":"+f(this.getUTCMinutes())+":"+f(this.getUTCSeconds())+"Z":null},Boolean.prototype.toJSON=this_value,Number.prototype.toJSON=this_value,String.prototype.toJSON=this_value),"function"!=typeof JSON.stringify&&(meta={"\b":"\\b","\t":"\\t","\n":"\\n","\f":"\\f","\r":"\\r",'"':'\\"',"\\":"\\\\"},JSON.stringify=function(t,e,r){var n;if(gap="",indent="","number"==typeof r)for(n=0;n<r;n+=1)indent+=" ";else"string"==typeof r&&(indent=r);if(rep=e,e&&"function"!=typeof e&&("object"!=typeof e||"number"!=typeof e.length))throw new Error("JSON.stringify");return str("",{"":t})}),"function"!=typeof JSON.parse&&(JSON.parse=function(text,reviver){var j;function walk(t,e){var r,n,o=t[e];if(o&&"object"==typeof o)for(r in o)Object.prototype.hasOwnProperty.call(o,r)&&(void 0!==(n=walk(o,r))?o[r]=n:delete o[r]);return reviver.call(t,e,o)}if(text=String(text),rx_dangerous.lastIndex=0,rx_dangerous.test(text)&&(text=text.replace(rx_dangerous,function(t){return"\\u"+("0000"+t.charCodeAt(0).toString(16)).slice(-4)})),rx_one.test(text.replace(rx_two,"@").replace(rx_three,"]").replace(rx_four,"")))return j=eval("("+text+")"),"function"==typeof reviver?walk({"":j},""):j;throw new SyntaxError("JSON.parse")})}();// ---------------------------------- //// ----- EXTENDSCRIPT PONYFILLS -----function __objectFreeze(obj) { return obj; }function __isArray(arr) { try { return arr instanceof Array; } catch (e) { return false; } };// ---------------------------------- //var version = "0.0.1";
 
 var config = {
   version: version,
@@ -50,96 +50,19 @@ var config = {
 
 var ns = config.id;
 
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function _iterableToArrayLimit(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i["return"] && (_r = _i["return"](), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
+function _arrayWithHoles(arr) { if (__isArray(arr)) return arr; }
 var comp;
 var layer;
 var initialize = function initialize() {
-  if (comp instanceof CompItem) {
-    comp = app.project.activeItem;
-    if (!comp) {
-      alert("No composition is selected. Please select a composition.");
-      throw new Error("No composition selected");
-    }
-    layer = comp.selectedLayers[0];
-    if (!layer) {
-      alert("No layer is selected in the active composition. Please select a layer.");
-      throw new Error("No layer selected");
-    }
-    for (var i = 1; i <= layer.effect.numProperties; i++) {
-      if (layer.effect(i).matchname === "ADBE AESD") {
-        break;
-      }
-    }
-  }
-};
-function GetInitialSolidPosition(preComp) {
-  if (!(preComp instanceof CompItem)) {
-    alert("Invalid pre-comp.");
-    return;
-  }
-  var solid = preComp.layer(1);
-  var solidPosition = solid.property("Position").value.slice(); // Create a duplicate
-
-  return solidPosition;
-}
-function PositionChange(preComp) {
-  if (!(preComp instanceof CompItem)) {
-    alert("Invalid pre-comp.");
-    return;
-  }
-  var solid = preComp.layer(1);
-  var video = preComp.layer(2);
-
-  // Get the anchor point value
-  var anchorPoint = solid.property("Anchor Point").value;
-  video.parent = solid;
-  video.trackMatteType = TrackMatteType.ALPHA;
-  solid.property("Position").setValue(anchorPoint);
-  preComp.width = solid.width;
-  preComp.height = solid.height;
-  preComp.layer(1).remove();
-}
-
-//function ChangeComp() {
-var checkAESD = function checkAESD() {
   comp = app.project.activeItem;
-  // Check if project file exists/has been saved
-  if (app.project.file == null) {
-    alert("Please save your project first.");
-    return;
+  if (comp instanceof CompItem) {
+    layer = comp.selectedLayers[0];
   }
-  var comp = app.project.activeItem;
-  if (!(comp instanceof CompItem)) {
-    alert("Please select a composition.");
-    return;
-  }
-  var solidLayer = null;
-  var otherlayer = null;
-  solidLayer = comp.selectedLayers[0];
-  if (!solidLayer) {
-    return;
-  }
-
-  // Find the video layer
-  otherlayer = comp.selectedLayers[1];
-  if (!otherlayer) {
-    alert("Video layer not found.");
-    return;
-  }
-  app.beginUndoGroup("Change Comp");
-
-  // Duplicate and rename the video layer
-  var duplicatedVideoLayer = otherlayer.duplicate();
-  otherlayer.name = "Duplicated Video Layer";
-
-  // Create a new pre-comp containing the solid and duplicated video layers
-  var preCompName = "New";
-  var newPreComp = comp.layers.precompose([solidLayer.index, duplicatedVideoLayer.index], preCompName, true);
-  var preCompLayer = comp.layer(newPreComp.name);
-  var initialSolidPosition = GetInitialSolidPosition(preCompLayer.source);
-  PositionChange(preCompLayer.source);
-  preCompLayer.position.setValue([initialSolidPosition[0], initialSolidPosition[1]]);
-  preCompLayer.Effects.addProperty('ADBE AESD');
-  app.endUndoGroup();
 };
 
 //clear the selections
@@ -166,6 +89,18 @@ var importImageAtFrame = function importImageAtFrame(imagePath, frame) {
     alert("No active composition.");
     return;
   }
+
+  // Get the selected layers.
+  var layers = comp.selectedLayers;
+
+  // Check if a layer is selected.
+  if (layers.length === 0) {
+    alert("Please select a layer.");
+    return;
+  }
+
+  // We're only interested in the first selected layer.
+  var originalLayer = layers[0];
   var frameRate = comp.frameRate;
   var timeInSeconds = frame / frameRate;
   var imageFile = new File(imagePath);
@@ -186,6 +121,30 @@ var importImageAtFrame = function importImageAtFrame(imagePath, frame) {
   imageLayer.startTime = timeInSeconds;
   var durationInFrames = Math.round(importedImage.duration * importedImage.frameRate);
   imageLayer.outPoint = timeInSeconds + durationInFrames / frameRate;
+
+  // Check if the originalLayer has at least one mask.
+  if (originalLayer.mask) {
+    // We're only interested in the first mask.
+    var mask = originalLayer.mask.property(1);
+    var maskShape = mask.property("maskShape").value;
+
+    // Access all vertices for their positions.
+    var verticesPositions = [];
+    for (var i = 0; i < maskShape.vertices.length; i++) {
+      verticesPositions.push(maskShape.vertices[i]);
+    }
+
+    // Calculate center position of the rectangle formed by the vertices.
+    var minX = Math.min(verticesPositions[0][0], verticesPositions[1][0], verticesPositions[2][0], verticesPositions[3][0]);
+    var maxX = Math.max(verticesPositions[0][0], verticesPositions[1][0], verticesPositions[2][0], verticesPositions[3][0]);
+    var minY = Math.min(verticesPositions[0][1], verticesPositions[1][1], verticesPositions[2][1], verticesPositions[3][1]);
+    var maxY = Math.max(verticesPositions[0][1], verticesPositions[1][1], verticesPositions[2][1], verticesPositions[3][1]);
+    var centerX = minX + (maxX - minX) / 2;
+    var centerY = minY + (maxY - minY) / 2;
+    alert(centerX + " " + centerY);
+    // Set the imageComp's position to the center position.
+    imageLayer.position.setValue([centerX, centerY]);
+  }
   return "Image imported successfully.";
 };
 var getlength = function getlength() {
@@ -241,7 +200,7 @@ var getPluginParams = function getPluginParams() {
   return paramValues;
 };
 var samplerMethodNames = ["Euler a", "Euler", "LMS", "Heun", "DPM2", "DPM2 a", "DPM++ 2S a", "DPM++ 2M", "DPM++ SDE", "DPM fast", "DPM adaptive", "LMS Karras", "DPM2 Karras", "DPM2 a Karras", "DPM++ 2S a Karras", "DPM++ 2M Karras", "DPM++ SDE Karras", "DDIM", "PLMS", "UniPC"];
-var scriptNames = ["None", "img2img alternative test", "loopback", "outpainting mk2", "poor man's outpainting", "prompt matrix", "prompts from file or textbox", "sd upscale", "x/y/z plot", "controlnet m2m", "depthmap"];
+var scriptNames = ["None", "img2img alternative test", "loopback", "outpainting mk2", "poor man's outpainting", "sd upscale"];
 var preprocessorNames = ["none", "canny", "depth", "depth_leres", "depth_leres++", "hed", "hed_safe", "mediapipe_face", "mlsd", "normal_map", "openpose", "openpose_hand", "openpose_face", "openpose_faceonly", "openpose_full", "clip_vision", "color", "pidinet", "pidinet_safe", "pidinet_sketch", "pidinet_scribble", "scribble_xdog", "scribble_hed", "segmentation", "threshold", "depth_zoe", "normal_bae", "oneformer_coco", "oneformer_ade20k", "lineart", "lineart_coarse", "lineart_anime", "lineart_standard", "shuffle", "tile_resample", "invert", "lineart_anime_denoise", "reference_only", "reference_adain", "reference_adain+attn", "inpaint"];
 var modelNames = ["none", "control_v11e_sd15_ip2p [c4bb465c]", "control_v11e_sd15_shuffle [526bfdae]", "control_v11f1e_sd15_tile [a371b31b]", "control_v11f1p_sd15_depth [cfd03158]", "control_v11p_sd15_canny [d14c016b]", "control_v11p_sd15_inpaint [ebff9138]", "control_v11p_sd15_lineart [43d4be0d]", "control_v11p_sd15_mlsd [aca30ff0]", "control_v11p_sd15_normalbae [316696f1]", "control_v11p_sd15_openpose [cab727d4]", "control_v11p_sd15_scribble [d4ba51ff]", "control_v11p_sd15_seg [e1f51eb9]", "control_v11p_sd15_softedge [a8575a2a]", "control_v11p_sd15s2_lineart_anime [3825e83e]"];
 var getT2IParams = function getT2IParams(frame) {
@@ -251,8 +210,18 @@ var getT2IParams = function getT2IParams(frame) {
   var originalTime = comp.time; // Store the original comp time
 
   comp.time = time;
-  var width = layer.width;
-  var height = layer.height;
+  var width, height;
+  if (checkMask()) {
+    var _getMaskWH = getMaskWH();
+    var _getMaskWH2 = _slicedToArray(_getMaskWH, 2);
+    width = _getMaskWH2[0];
+    height = _getMaskWH2[1];
+  } else {
+    var _getLayerWH = getLayerWH();
+    var _getLayerWH2 = _slicedToArray(_getLayerWH, 2);
+    width = _getLayerWH2[0];
+    height = _getLayerWH2[1];
+  }
   paramValue.push(width);
   paramValue.push(height);
   // Retrieve the values of each parameter and get the corresponding names
@@ -292,8 +261,19 @@ var getI2IParams = function getI2IParams(frame) {
   var originalTime = comp.time; // Store the original comp time
 
   comp.time = time;
-  var width = layer.width;
-  var height = layer.height;
+  var width, height;
+  if (checkMask()) {
+    var _getMaskWH3 = getMaskWH();
+    var _getMaskWH4 = _slicedToArray(_getMaskWH3, 2);
+    width = _getMaskWH4[0];
+    height = _getMaskWH4[1];
+  } else {
+    var _getLayerWH3 = getLayerWH();
+    var _getLayerWH4 = _slicedToArray(_getLayerWH3, 2);
+    width = _getLayerWH4[0];
+    height = _getLayerWH4[1];
+  }
+  paramValue.push(effect.property("Resize Mode").value);
   paramValue.push(effect.property("Denoising Strength").value);
   paramValue.push(width);
   paramValue.push(height);
@@ -318,7 +298,7 @@ var getI2IParams = function getI2IParams(frame) {
 
     var modelIndex = effect.property("Model " + i).value;
     paramValue.push(modelNames[modelIndex - 1]); // Adjust indexing
-
+    paramValue.push(effect.property("Low vRam").value);
     paramValue.push(effect.property("Weight " + i).value);
     paramValue.push(effect.property("Guidance Start " + i).value);
     paramValue.push(effect.property("Guidance End " + i).value);
@@ -336,8 +316,19 @@ var getI2IMaskParams = function getI2IMaskParams(frame) {
   var originalTime = comp.time; // Store the original comp time
 
   comp.time = time;
-  var width = layer.width;
-  var height = layer.height;
+  var width, height;
+  if (checkMask()) {
+    var _getMaskWH5 = getMaskWH();
+    var _getMaskWH6 = _slicedToArray(_getMaskWH5, 2);
+    width = _getMaskWH6[0];
+    height = _getMaskWH6[1];
+  } else {
+    var _getLayerWH5 = getLayerWH();
+    var _getLayerWH6 = _slicedToArray(_getLayerWH5, 2);
+    width = _getLayerWH6[0];
+    height = _getLayerWH6[1];
+  }
+  paramValue.push(effect.property("Resize Mode").value);
   paramValue.push(effect.property("Denoising Strength").value);
   paramValue.push(width);
   paramValue.push(height);
@@ -345,6 +336,7 @@ var getI2IMaskParams = function getI2IMaskParams(frame) {
   paramValue.push(effect.property("Masked Content").value);
   paramValue.push(effect.property("Inpaint Area").value);
   paramValue.push(effect.property("Only masked padding").value);
+  paramValue.push(effect.property("Mask Blur").value);
   // Retrieve the values of each parameter and get the corresponding names
   var samplerMethodIndex = effect.property("Sampler Method").value;
   paramValue.push(samplerMethodNames[samplerMethodIndex - 1]); // Adjust indexing
@@ -365,7 +357,7 @@ var getI2IMaskParams = function getI2IMaskParams(frame) {
 
     var modelIndex = effect.property("Model " + i).value;
     paramValue.push(modelNames[modelIndex - 1]); // Adjust indexing
-
+    paramValue.push(effect.property("Low vRam").value);
     paramValue.push(effect.property("Weight " + i).value);
     paramValue.push(effect.property("Guidance Start " + i).value);
     paramValue.push(effect.property("Guidance End " + i).value);
@@ -440,57 +432,143 @@ var getProjectPath = function getProjectPath() {
   return path;
 };
 
-//get the name of the selected layer
-var getLayerName = function getLayerName() {
-  if (!comp || !(comp instanceof CompItem)) {
-    alert("No comp selected!");
-    return null;
+/*
+function maskCenter() {
+  // Check if a composition is selected.
+  if(!comp || !(comp instanceof CompItem)) {
+      alert("Please select a composition.");
+      return;
   }
-  var layers = comp.selectedLayers;
-  if (layers.length < 1) {
-    alert("No layer selected!");
-    return null;
-  }
-  var layerName = layer.name;
-  return layerName;
-};
 
-//rename the selected layer
-var renameLayer = function renameLayer(newName) {
-  if (!comp || !(comp instanceof CompItem)) {
-    alert("No comp selected!");
-    return null;
-  }
+  // Get the selected layers.
   var layers = comp.selectedLayers;
-  if (layers.length < 1) {
-    alert("No layer selected!");
-    return null;
-  }
-  //create a conter to have unique layer names
-  var counter = 0;
-  for (var i = 0; i < layers.length; i++) {
-    layers[i].name = newName + counter;
-    counter++;
-  }
-};
-var sketchlayer;
-//function to create a new layer (in a pre comp), add the paint effect, and finally set the layer controls on the original layer.
 
-var createSketchLayer = function createSketchLayer() {
-  sketchlayer = layer.duplicate();
-  //create a new precomp
-  var precomp = comp.layers.precompose([sketchlayer.index], "sketch", true);
-  precomp.name = "sketch";
-  var precomplayer = comp.layer(precomp.name);
-  //set the value of the Sketch Layer control in ADBE AESD to the precomp
-  precomplayer.Effects.addProperty('ADBE Paint');
-  //set mode to effects+masks
+  // Check if a layer is selected.
+  if(layers.length === 0) {
+      alert("Please select a layer.");
+      return;
+  }
+
+  // We're only interested in the first selected layer.
+  var layer = layers[0];
+
+  // Check if the layer has at least one mask.
+  if(!layer.mask || layer.mask.numProperties === 0) {
+      alert("The selected layer has no masks.");
+      return;
+  }
+
+  // We're only interested in the first mask.
+  var mask = layer.mask.property(1);
+  var maskShape = mask.property("maskShape").value;
+
+  // Access all vertices for their positions.
+  var verticesPositions = [];
+  for(var i = 0; i < maskShape.vertices.length; i++) {
+      verticesPositions.push(maskShape.vertices[i]);
+  }
+
+  // Calculate center position of the rectangle formed by the vertices.
+  var minX = Math.min(verticesPositions[0][0], verticesPositions[1][0], verticesPositions[2][0], verticesPositions[3][0]);
+  var maxX = Math.max(verticesPositions[0][0], verticesPositions[1][0], verticesPositions[2][0], verticesPositions[3][0]);
+  var minY = Math.min(verticesPositions[0][1], verticesPositions[1][1], verticesPositions[2][1], verticesPositions[3][1]);
+  var maxY = Math.max(verticesPositions[0][1], verticesPositions[1][1], verticesPositions[2][1], verticesPositions[3][1]);
+
+  var centerX = minX + (maxX - minX) / 2;
+  var centerY = minY + (maxY - minY) / 2;
+
+  return [centerX, centerY];
+}
+
+function importCenter(centerPosition, imagePath) {
+  // Import the image file.
+  var imageFile = new File(imagePath);
+  var importOptions = new ImportOptions(imageFile);
+  var imageItem = app.project.importFile(importOptions);
+
+  // Create a new layer with the image.
+  var imageLayer = comp.layers.add(imageItem);
+
+  // Set the layer's position to the center position.
+  imageLayer.position.setValue(centerPosition);
+}
+*/
+
+//check if mask exists, true or false return
+function checkMask() {
+  // Check if a composition is selected.
+  if (!comp || !(comp instanceof CompItem)) {
+    alert("Please select a composition.");
+    return;
+  }
+
+  // Check if the layer has at least one mask and it is active.
+  if (!layer.mask || layer.mask.numProperties === 0 || !layer.mask.property(1).active) {
+    return false;
+  }
+  return true;
+}
+
+//get the w/h of the mask
+function getMaskWH() {
+  // Check if a composition is selected.
+  if (!comp || !(comp instanceof CompItem)) {
+    alert("Please select a composition.");
+    return;
+  }
+
+  // Check if the layer has at least one mask.
+  if (!layer.mask || layer.mask.numProperties === 0) {
+    alert("The selected layer has no masks.");
+    return;
+  }
+
+  // We're only interested in the first mask.
+  var mask = layer.mask.property(1);
+  var maskShape = mask.property("maskShape").value;
+
+  // Access all vertices for their positions.
+  var verticesPositions = [];
+  for (var i = 0; i < maskShape.vertices.length; i++) {
+    verticesPositions.push(maskShape.vertices[i]);
+  }
+
+  // Calculate center position of the rectangle formed by the vertices.
+  var minX = Math.min(verticesPositions[0][0], verticesPositions[1][0], verticesPositions[2][0], verticesPositions[3][0]);
+  var maxX = Math.max(verticesPositions[0][0], verticesPositions[1][0], verticesPositions[2][0], verticesPositions[3][0]);
+  var minY = Math.min(verticesPositions[0][1], verticesPositions[1][1], verticesPositions[2][1], verticesPositions[3][1]);
+  var maxY = Math.max(verticesPositions[0][1], verticesPositions[1][1], verticesPositions[2][1], verticesPositions[3][1]);
+  var width = maxX - minX;
+  var height = maxY - minY;
+  return [width, height];
+}
+
+//get w/h of the layer
+function getLayerWH() {
+  // Check if a composition is selected.
+  if (!comp || !(comp instanceof CompItem)) {
+    alert("Please select a composition.");
+    return;
+  }
+  var width = layer.width;
+  var height = layer.height;
+  return [width, height];
+}
+var scaleLayer = function scaleLayer() {
+  var comp = app.project.activeItem;
+  // Check if a composition is selected.
+  if (!comp || !(comp instanceof CompItem)) {
+    alert("Please select a composition.");
+    return;
+  }
+
+  // change the composition settings start time to 0
+  comp.displayStartTime = 0;
 };
 
 var aeft = /*#__PURE__*/__objectFreeze({
   __proto__: null,
   initialize: initialize,
-  checkAESD: checkAESD,
   clearSelection: clearSelection,
   startNewImageComp: startNewImageComp,
   importImageAtFrame: importImageAtFrame,
@@ -503,9 +581,7 @@ var aeft = /*#__PURE__*/__objectFreeze({
   getseed: getseed,
   getFrame: getFrame,
   getProjectPath: getProjectPath,
-  getLayerName: getLayerName,
-  renameLayer: renameLayer,
-  createSketchLayer: createSketchLayer
+  scaleLayer: scaleLayer
 });
 
 var main;
