@@ -141,7 +141,7 @@ var importImageAtFrame = function importImageAtFrame(imagePath, frame) {
     var maxY = Math.max(verticesPositions[0][1], verticesPositions[1][1], verticesPositions[2][1], verticesPositions[3][1]);
     var centerX = minX + (maxX - minX) / 2;
     var centerY = minY + (maxY - minY) / 2;
-    alert(centerX + " " + centerY);
+
     // Set the imageComp's position to the center position.
     imageLayer.position.setValue([centerX, centerY]);
   }
