@@ -60,8 +60,8 @@ To install the required packages, you have two options:
 1. Open your project in After Effects and make the desired modifications.
 2. Rename the layer you want to work with to a simple name like "layer," "comp," or "video" without any extra numbers or symbols.
 3. Save the project.
-4. Apply the AESD effect from `Effects > Generate > AESD`.
-5. If you want to work with a specific region of the main comp, create a solid of the desired size and position it over your comp. Select both the solid and the other layer, then click the "FX" button to set up the comp for generation based on the smaller area, then it will apply the effect for you. 
+4. Apply the AESD effect from `Effects > Generate > AESD`, or simply search for 'AESD'.
+5. If you want to work with a specific region of the main comp, draw a mask on the layer you've applied the effect to, and your generation will automatically be placed into that area.
 6. Adjust the settings in the effect panel, including keyframing them if necessary.
 7. Click the "Generate" button to initiate the generation process. The generated images will be returned to your project.
 
