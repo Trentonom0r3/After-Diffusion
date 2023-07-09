@@ -3,20 +3,14 @@
 A CEP Extension for Adobe After Effects that allows for seamless integration of the Stable Diffusion Web-UI. Compatible with AE versions CC 2019 and up.
 
 ## Main Feature Summary
-  - New UI: The extension now features a new UI with 7 simple buttons for an improved user experience.
   - Seamless Integration: The UI blends into After Effects, providing a native look and feel.
-  - Custom Override Settings: Users can personalize their experience using custom settings.
-  - Settings Panel: Includes options to change the API URL for collab and --nowebui users.
-  - Folder Button Currently does nothing. Working on a few different implementations and will update once I finalize the workflow. 
-
-![UI](https://github.com/Trentonom0r3/After-Diffusion/assets/130304830/49efb4c9-796e-4c2b-a8d6-590fee2940d0)
-
-  - Key-frameable Parameters: The Pseudo Effect supports key-framing of parameters.
+  - Key-frameable Parameters: The Pseudo Effect supports key-framing of parameters, allowing you to key-frame anything from CFG Scale to Controlnet Model.
   - Background Output: Changes applied through the effect are automatically outputted to the layer in the background.
-
-![c++ (1)](https://github.com/Trentonom0r3/After-Diffusion/assets/130304830/63a44309-f7e3-4221-8fbd-1221630d3c1a)
-
-
+  - Direct Generation: Generate images from webUI directly in After Effects without having to swap windows.
+     - Use Txt2Img, Img2Img + Inpaint, Inpaint Sketch, Multi-Controlnet, and more!
+  - Direct Control: Control your Diffusion Models directly from After Effects!
+  - Please See the [Wiki](https://github.com/Trentonom0r3/After-Diffusion/wiki/General-Usage-%5BAESD-CEP-EXTENSION%5D-%5BAFTER-EFFECTS%5D) for more info!
+    
 ## Table of Contents
 - [Change Log](#change-log)
 - [Key Features](#key-features)
