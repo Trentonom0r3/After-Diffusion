@@ -17,7 +17,7 @@ A CEP Extension for Adobe After Effects that allows for seamless integration of 
   - Key-frameable Parameters: The Pseudo Effect supports key-framing of parameters, allowing you to key-frame anything from CFG Scale to Controlnet Model.
   - Background Output: Changes applied through the effect are automatically outputted to the layer in the background.
   - Direct Generation: Generate images from webUI directly in After Effects without having to swap windows.
-     - Use Txt2Img, Img2Img + Inpaint, Inpaint Sketch, Multi-Controlnet, and more!
+    >  Use Txt2Img, Img2Img + Inpaint, Inpaint Sketch, Multi-Controlnet, and more!
   - Direct Control: Control your Diffusion Models directly from After Effects!
   - Please see the [Wiki](https://github.com/Trentonom0r3/After-Diffusion/wiki/General-Usage-%5BAESD-CEP-EXTENSION%5D-%5BAFTER-EFFECTS%5D) for more info!
     
@@ -30,13 +30,13 @@ A CEP Extension for Adobe After Effects that allows for seamless integration of 
 4. Make sure you give scripts full permissions in AE preferences.
 
 #### ZXP Installation
-1. Download the ZXP file from [ZXP folder].
+1. Download the ZXP file from `ZXP` folder.
 2. Install the ZXP file using [ZXPInstaller](https://aescripts.com/learn/zxp-installer/).
 3. Make sure you give scripts full permissions in AE preferences.
 
 #### .aex Plugin Installation
-1. Download the .aex plugin file from [repository].
-2. Copy the .aex file into the After Effects effects folder, which is commonly found at:
+1. Download the `.aex` plugin file.
+2. Copy the `.aex` file into the After Effects effects folder, which is commonly found at:
    `C:\Program Files\Adobe\Adobe After Effects 2023\Support Files\Plug-ins\Effects`.
 
 ### Python Requirements
@@ -55,8 +55,9 @@ To install the required packages, you have two options:
 - Make sure you've added "--api" as an argument to your webui-user.bat file!
 
 ## Usage
-- Make sure your SD webUI has been started and is fully loaded, ready to go.
-- To use the After-Diffusion CEP extension and Pseudo Effect, follow these steps:
+> Make sure your SD webUI has been started and is fully loaded, ready to go.
+
+> To use the After-Diffusion CEP extension and Pseudo Effect, follow these steps:
 1. Open your project in After Effects and make the desired modifications.
 2. Rename the layer you want to work with to a simple name like "layer," "comp," or "video" without any extra numbers or symbols.
 3. Save the project.
