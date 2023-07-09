@@ -23,18 +23,18 @@ A CEP Extension for Adobe After Effects that allows for seamless integration of 
     
 ## Installation
 
-### CEP Installation
+#### CEP Installation
 1. Download the `CEP` folder.
 2. Place the `CEP` folder into the following directory: `C:\Program Files (x86)\Common Files\Adobe\CEP\extensions`.
 3. Open Adobe After Effects and access the extension. 
 4. Make sure you give scripts full permissions in AE preferences.
 
-### ZXP Installation
+#### ZXP Installation
 1. Download the ZXP file from [ZXP folder].
 2. Install the ZXP file using [ZXPInstaller](https://aescripts.com/learn/zxp-installer/).
 3. Make sure you give scripts full permissions in AE preferences.
 
-### .aex Plugin Installation
+#### .aex Plugin Installation
 1. Download the .aex plugin file from [repository].
 2. Copy the .aex file into the After Effects effects folder, which is commonly found at:
    `C:\Program Files\Adobe\Adobe After Effects 2023\Support Files\Plug-ins\Effects`.
@@ -70,7 +70,7 @@ To install the required packages, you have two options:
 - If the user adds new effects after the AESD effect, the AESD effect output will not reflect the new effects. To fix this, move the AESD effect below all other effects.
 - If the images aren't updating properly, start from time 0, press the space bar, and let After Effects RAM render, which will force the images to update.
 - Scripts do not have parameters yet. May have unpredictible results if used.
-- 
+
 ## Tested System Specifications
 - Keep in mind, this is only what my laptop has, restrictions will be based primarily on webUI, and After Effects itself. 
 - **Processor:**
