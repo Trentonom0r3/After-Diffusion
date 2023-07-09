@@ -2,7 +2,17 @@
 
 A CEP Extension for Adobe After Effects that allows for seamless integration of the Stable Diffusion Web-UI. Compatible with AE versions CC 2019 and up.
 
-## Main Feature Summary
+## Table of Contents
+- [Key Features](#key-features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Known Issues/Bugs](#known-issuesbugs)
+- [License](#license)
+- [Resources and Thanks](#resources-and-thanks)
+- [Tested System Specifications](#tested-system-specifications)
+- [Change Log](#change-log)
+
+## Key Features
   - Seamless Integration: The UI blends into After Effects, providing a native look and feel.
   - Key-frameable Parameters: The Pseudo Effect supports key-framing of parameters, allowing you to key-frame anything from CFG Scale to Controlnet Model.
   - Background Output: Changes applied through the effect are automatically outputted to the layer in the background.
@@ -11,65 +21,6 @@ A CEP Extension for Adobe After Effects that allows for seamless integration of 
   - Direct Control: Control your Diffusion Models directly from After Effects!
   - Please see the [Wiki](https://github.com/Trentonom0r3/After-Diffusion/wiki/General-Usage-%5BAESD-CEP-EXTENSION%5D-%5BAFTER-EFFECTS%5D) for more info!
     
-## Table of Contents
-- [Change Log](#change-log)
-- [Key Features](#key-features)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Known Issues/Bugs](#known-issuesbugs)
-- [License](#license)
-- [Resources and Thanks](#resources-and-thanks)
-- [Tested System Specifications](#tested-system-specifications)
-
-## Change Log
-### 7.5.23
-   - Fixed IMG2IMG Inpaint, now working properly.
-   - In all cases other than TXT2IMG, set 'Input' to the layer you want to generate for, and set 'Input' to either source, or masks.
-    ( You can use effects+masks as long as you don't have rotoscope applied)
-   Then, set the mask control to the same layer, and set it to effects and masks.
-   BOTH layer controls must be set, or your images will not be output.
-
-   - Draw a mask on the layer you have the effect applied to, and work with smaller areas more easily! 
-    - (This assumes the selection mask is rectangular)
-   - Resize Mode Options now working properly. (Useful when you want to use a lower quality input.)
-     - Creates images based on the viewer quality you have set.
-      - If image is 1920x1080 and quality is 50%, the image is saved at 960x540, and sent to SD at the layer size, default is simple resize.
-      - If a Mask is used, SD is sent to generate an image the size of the mask, and it is then place back into the comp at the same position.
-   - Added low Vram option to controlnet.
-   - Added mask blur slider to mask options.
-   - Started on Script Args. Visibile in c++ effect, but they don't affect generation, nor are they dynamically set up yet.
-
-### 6.25.23 
-   - Inpaint Sketch Support
-   - Layer Control Support
-   - CEP UI Live Progress Bar
-   - Dynamic C++ Parameters
-
-#### 6.12.23
-   - Initial Release of After Diffusion v2.0. Full UI overhaul, custom c++ effect, and more!
-#### 5.25.23
-   - Created a basic [Discord Server](https://discord.gg/EbsH6ZHd) for people to join. It'll make things a bit easier for finding issues/providing updates and tutorials. I don't expect a ton of traffic, but it's there if you're interested! 
-   
-#### 5.22.23
-   - Fixed issue on ZXP install, added ZXP option back to the repository.
-   - Removed PIX2PIX button, added 'img2img alternative test' switch.
-
-## Key Features
-- Work Directly with Videos: No need for PNG sequences anymore.
-- ControlNet Support Added! Multi-ControlNet available, only limited by your webUI settings!
-- Most of the work is done on the backend, allowing less work for AE and less work for you!
-- Harness the power of After Effects features without bouncing back and forth between webUI, AE, and your system.
-- Set webUI models and more directly from the extension.
-- TXT2IMG and full IMG2IMG support, including inpaint, single image generation, and full video generation.
-- Work with specific regions of a larger comp. Seamlessly reintegrate smaller sections back into the full-sized main comp.
-- Less direct action in After Effects and more happening on the backend.
-- Keeps AE responsive and leads to faster overall generation and integration times.
-- New UI with 7 simple buttons for an improved user experience.
-- Inpaint Sketch Support Added
- - Create a pre-comp of your "input" source, and use the paintbrush tool to begin painting on it.
- - Under "Mask Options" Set your Sketch Layer to this new pre-comp, and set it to Effects + Masks
- - Change Generation Type to Inpaint Sketch, and continue as normal!
-
 ## Installation
 
 ### CEP Installation
@@ -133,6 +84,38 @@ To install the required packages, you have two options:
 - **Video Card:**
   - NVIDIA GeForce RTX 3060 Laptop GPU, 6GB vRAM
 
+## Change Log
+### 7.5.23
+   - Fixed IMG2IMG Inpaint, now working properly.
+   - In all cases other than TXT2IMG, set 'Input' to the layer you want to generate for, and set 'Input' to either source, or masks.
+    ( You can use effects+masks as long as you don't have rotoscope applied)
+   Then, set the mask control to the same layer, and set it to effects and masks.
+   BOTH layer controls must be set, or your images will not be output.
+
+   - Draw a mask on the layer you have the effect applied to, and work with smaller areas more easily! 
+    - (This assumes the selection mask is rectangular)
+   - Resize Mode Options now working properly. (Useful when you want to use a lower quality input.)
+     - Creates images based on the viewer quality you have set.
+      - If image is 1920x1080 and quality is 50%, the image is saved at 960x540, and sent to SD at the layer size, default is simple resize.
+      - If a Mask is used, SD is sent to generate an image the size of the mask, and it is then place back into the comp at the same position.
+   - Added low Vram option to controlnet.
+   - Added mask blur slider to mask options.
+   - Started on Script Args. Visibile in c++ effect, but they don't affect generation, nor are they dynamically set up yet.
+
+### 6.25.23 
+   - Inpaint Sketch Support
+   - Layer Control Support
+   - CEP UI Live Progress Bar
+   - Dynamic C++ Parameters
+
+#### 6.12.23
+   - Initial Release of After Diffusion v2.0. Full UI overhaul, custom c++ effect, and more!
+#### 5.25.23
+   - Created a basic [Discord Server](https://discord.gg/EbsH6ZHd) for people to join. It'll make things a bit easier for finding issues/providing updates and tutorials. I don't expect a ton of traffic, but it's there if you're interested! 
+   
+#### 5.22.23
+   - Fixed issue on ZXP install, added ZXP option back to the repository.
+   - Removed PIX2PIX button, added 'img2img alternative test' switch.
 
 ## License
 The software is licensed under the [AGPL-3.0 license](https://github.com/Trentonom0r3/After-Diffusion/blob/main/LICENSE).
