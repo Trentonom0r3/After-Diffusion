@@ -86,6 +86,15 @@ To install the required packages, you have two options:
   - NVIDIA GeForce RTX 3060 Laptop GPU, 6GB vRAM
 
 ## Change Log
+
+## 7.13.23 [MAJOR UPDATE]
+   - Added New Panel, 'Grid Editor'
+     - Create Grids from your Frames Directly in AE, send to layers! Click the 'Folder' Button to access this.
+   - Added Live Preview. When Generating, you'll get a preview of the images being generated.
+   - Added Support for Controlnet Control Image. Set this in the C++ effect. Set to 'None' if you want to use the Input layer in img2img.
+       - Control Image also works for TXT2IMG.
+   - Added Tiled VAE options to c++ effect, CEP now reflects this information-- you can use Tiled VAE in After Diffusion now!
+
 ### 7.5.23
    - Fixed IMG2IMG Inpaint, now working properly.
    - In all cases other than TXT2IMG, set 'Input' to the layer you want to generate for, and set 'Input' to either source, or masks.
