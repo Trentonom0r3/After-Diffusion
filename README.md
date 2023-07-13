@@ -20,8 +20,8 @@ A CEP Extension for Adobe After Effects that allows for seamless integration of 
     >  Use Txt2Img, Img2Img + Inpaint, Inpaint Sketch, Multi-Controlnet, and more!
   - Direct Control: Control your Diffusion Models directly from After Effects!
   - Tiled VAE, Grid Editor, Control Image, and Live Previews!
-  - Please see the [Wiki](https://github.com/Trentonom0r3/After-Diffusion/wiki/General-Usage-%5BAESD-CEP-EXTENSION%5D-%5BAFTER-EFFECTS%5D) for more info!
-    
+  - Please see the [Wiki](https://github.com/Trentonom0r3/After-Diffusion/wiki) for more info!
+
 ## Installation
 
 #### CEP Installation
