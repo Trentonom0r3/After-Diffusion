@@ -101,6 +101,7 @@ https://github.com/Trentonom0r3/After-Diffusion/assets/130304830/f31273ac-f744-4
    - Added Support for Controlnet Control Image. Set this in the C++ effect. Set to 'None' if you want to use the Input layer in img2img.
        - Control Image also works for TXT2IMG.
    - Added Tiled VAE options to c++ effect, CEP now reflects this information-- you can use Tiled VAE in After Diffusion now!
+   - Started to Update [Wiki](https://github.com/Trentonom0r3/After-Diffusion/wiki/General-Usage-%5BAESD-CEP-EXTENSION%5D-%5BAFTER-EFFECTS%5D) with videos and more info.
 
 ### 7.5.23
    - Fixed IMG2IMG Inpaint, now working properly.
