@@ -55,6 +55,12 @@ To install the required packages, you have two options:
 #### Automatic1111
 - Make sure you've added "--api" as an argument to your webui-user.bat file!
 
+#### UI Positioning.
+= The Following is a short video demonstrating how and where I set my extension up within the main UI.
+
+https://github.com/Trentonom0r3/After-Diffusion/assets/130304830/f31273ac-f744-4629-b7f1-74fcb379cb17
+
+
 ## Usage
 > Make sure your SD webUI has been started and is fully loaded, ready to go.
 
