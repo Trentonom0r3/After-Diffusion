@@ -8,6 +8,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 >
 <ExtensionList>
   <Extension Id="com.AESD.cep.main" Version="0.0.1" />
+  <Extension Id="com.AESD.cep.Grids" Version="0.0.1" />
 </ExtensionList>
 <ExecutionEnvironment>
   <HostList>
@@ -39,9 +40,46 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         <Menu>AESD</Menu>
         <Geometry>
           <Size>
-            <Width>100</Width>
-            <Height>200</Height>
+            <Width>125</Width>
+            <Height>650</Height>
           </Size>
+        </Geometry>
+        <Icons>
+          <Icon Type="Normal">./src/assets/dark-icon.png</Icon>
+          <Icon Type="DarkNormal">./src/assets/light-icon.png</Icon>
+          <Icon Type="RollOver">./src/assets/dark-icon.png</Icon>
+          <Icon Type="DarkRollOver">./src/assets/light-icon.png</Icon>
+        </Icons>
+      </UI>
+    </DispatchInfo>
+  </Extension>
+  <Extension Id="com.AESD.cep.Grids">
+    <DispatchInfo>
+      <Resources>
+        <MainPath>./settings/index1.html</MainPath>
+        <CEFCommandLine>
+          <Parameter>--v=0</Parameter>
+          <Parameter>--enable-nodejs</Parameter>
+          <Parameter>--mixed-context</Parameter>
+        </CEFCommandLine>
+      </Resources>
+      <Lifecycle>
+        <AutoVisible>true</AutoVisible>
+        <StartOn>
+        </StartOn>
+      </Lifecycle>
+      <UI>
+        <Type>Modeless</Type>
+        <Menu>Grid Editor</Menu>
+        <Geometry>
+          <Size>
+            <Width>280</Width>
+            <Height>550</Height>
+          </Size>
+          <MaxSize>
+            <Width>600</Width>
+            <Height>800</Height>
+          </MaxSize>
         </Geometry>
         <Icons>
           <Icon Type="Normal">./src/assets/dark-icon.png</Icon>

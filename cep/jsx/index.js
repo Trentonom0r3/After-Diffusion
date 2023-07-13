@@ -20,15 +20,24 @@ var config = {
   iconDarkNormalRollOver: "./src/assets/light-icon.png",
   iconNormalRollOver: "./src/assets/dark-icon.png",
   parameters: ["--v=0", "--enable-nodejs", "--mixed-context"],
-  width: 400,
-  height: 400,
   panels: [{
     mainPath: "./main/index.html",
     name: "main",
     panelDisplayName: "AESD",
     autoVisible: true,
-    width: 100,
-    height: 200
+    width: 125,
+    height: 650
+  }, {
+    type: "Modeless",
+    mainPath: "./settings/index1.html",
+    name: "Grids",
+    panelDisplayName: "Grid Editor",
+    autoVisible: true,
+    width: 280,
+    height: 550,
+    maxHeight: 800,
+    maxWidth: 600,
+    startOnEvents: []
   }],
   build: {
     jsxBin: "off",
@@ -244,12 +253,34 @@ var getT2IParams = function getT2IParams(frame) {
 
     var modelIndex = effect.property("Model " + i).value;
     paramValue.push(modelNames[modelIndex - 1]); // Adjust indexing
-
+    paramValue.push(effect.property("Low vRam").value);
     paramValue.push(effect.property("Weight " + i).value);
     paramValue.push(effect.property("Guidance Start " + i).value);
     paramValue.push(effect.property("Guidance End " + i).value);
     paramValue.push(effect.property("Control Mode " + i).value);
+    var controlImageValue = effect.property("Control Image " + i).value;
+    if (controlImageValue === 0) {
+      var filepath = ' ';
+      paramValue.push(filepath);
+    } else {
+      var projectPath = getProjectPath();
+
+      // Create your directory and file name
+      var dirName = "\\Controlnet\\CN" + i + "\\";
+      var fileName = "input" + frame + ".png";
+      //need to properly do this^^
+      // Combine the project path with the directory and file name
+      var filePath = projectPath + dirName + fileName;
+      paramValue.push(filePath);
+    }
   }
+  paramValue.push(effect.property("Enable Tiled VAE").value);
+  paramValue.push(effect.property("Move VAE to GPU").value);
+  paramValue.push(effect.property("Encoder Tile Size").value);
+  paramValue.push(effect.property("Decoder Tile Size").value);
+  paramValue.push(effect.property("Fast Encoder").value);
+  paramValue.push(effect.property("Fast Encoder Color Fix").value);
+  paramValue.push(effect.property("Fast Decoder").value);
   comp.time = originalTime;
   return paramValue;
 };
@@ -303,6 +334,21 @@ var getI2IParams = function getI2IParams(frame) {
     paramValue.push(effect.property("Guidance Start " + i).value);
     paramValue.push(effect.property("Guidance End " + i).value);
     paramValue.push(effect.property("Control Mode " + i).value);
+    var controlImageValue = effect.property("Control Image " + i).value;
+    if (controlImageValue === 0) {
+      var filepath = ' ';
+      paramValue.push(filepath);
+    } else {
+      var projectPath = getProjectPath();
+
+      // Create your directory and file name
+      var dirName = "\\Controlnet\\CN" + i + "\\";
+      var fileName = "input" + frame + ".png";
+      //need to properly do this^^
+      // Combine the project path with the directory and file name
+      var filePath = projectPath + dirName + fileName;
+      paramValue.push(filePath);
+    }
   }
   comp.time = originalTime; // Set the comp time back to the original value
 
@@ -362,8 +408,24 @@ var getI2IMaskParams = function getI2IMaskParams(frame) {
     paramValue.push(effect.property("Guidance Start " + i).value);
     paramValue.push(effect.property("Guidance End " + i).value);
     paramValue.push(effect.property("Control Mode " + i).value);
+    var controlImageValue = effect.property("Control Image " + i).value;
+    if (controlImageValue === 0) {
+      var filepath = ' ';
+      paramValue.push(filepath);
+    } else {
+      var projectPath = getProjectPath();
+
+      // Create your directory and file name
+      var dirName = "\\Controlnet\\CN" + i + "\\";
+      var fileName = "input" + frame + ".png";
+      //need to properly do this^^
+      // Combine the project path with the directory and file name
+      var filePath = projectPath + dirName + fileName;
+      paramValue.push(filePath);
+    }
   }
   comp.time = originalTime;
+  alert(JSON.stringify(paramValue));
   return paramValue;
 };
 
@@ -566,6 +628,26 @@ var scaleLayer = function scaleLayer() {
   comp.displayStartTime = 0;
 };
 
+//AddGrid function. Takes image path as argument, and simply imports as a layer.
+var addGrid = function addGrid(imagePath) {
+  var comp = app.project.activeItem;
+  if (comp === null || !(comp instanceof CompItem)) {
+    alert("No active composition. Please select a composition and try again.");
+    return;
+  }
+  var imageFile = new File(imagePath);
+  if (!imageFile.exists) {
+    alert("Image file does not exist. Please check the path and try again.");
+    return;
+  }
+  var importOptions = new ImportOptions(imageFile);
+  var imageItem = app.project.importFile(importOptions);
+  var imageLayer = comp.layers.add(imageItem);
+  var uniqueIdentifier = Date.now().toString();
+  imageLayer.name = "grid" + uniqueIdentifier;
+  return;
+};
+
 var aeft = /*#__PURE__*/__objectFreeze({
   __proto__: null,
   initialize: initialize,
@@ -581,7 +663,8 @@ var aeft = /*#__PURE__*/__objectFreeze({
   getseed: getseed,
   getFrame: getFrame,
   getProjectPath: getProjectPath,
-  scaleLayer: scaleLayer
+  scaleLayer: scaleLayer,
+  addGrid: addGrid
 });
 
 var main;

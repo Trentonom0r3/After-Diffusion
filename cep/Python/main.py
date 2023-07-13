@@ -1,3 +1,4 @@
+
 import random
 import string
 from flask import Flask, request, jsonify
@@ -7,6 +8,9 @@ import json
 import requests
 import tempfile
 import time
+from PIL import Image
+import numpy as np
+from io import BytesIO
 
 app = Flask(__name__)
 sd_url = 'http://127.0.0.1:7860'
@@ -159,6 +163,65 @@ def controlnet_module():
     url = f'{sd_url}/controlnet/module_list'
     response = requests.get(url)
     return jsonify(response.json())
+
+@app.route('/create_grid', methods=['POST'])
+def create_grid():
+    # Get the payload from the request
+    payload = request.get_json()
+    print(payload)
+    # Get images from payload
+    images_data = payload.get('images', None)
+
+    if images_data is None:
+        return jsonify({"error": "Missing 'images' key in the request payload"}), 400
+
+    # Get dimensions
+    tile_height = payload['tilegHeight']
+    tile_width = payload['tilegWidth']
+    grid_height = payload['maxgHeight']
+    grid_width = payload['maxgWidth']
+
+    # Create a blank canvas for the grid
+    grid_image = Image.new('RGBA', (grid_width, grid_height))
+
+    # Process images
+    for img in images_data:
+        # Decode base64 image
+        image_data = img['url'].split(",")[1]
+        img_decoded = Image.open(BytesIO(base64.b64decode(image_data)))
+
+        # Calculate the aspect ratio
+        aspect_ratio = img_decoded.width / img_decoded.height
+        new_height = tile_height
+        new_width = tile_width
+
+        # Adjust width or height based on the original image's aspect ratio
+        if aspect_ratio > 1:
+            # Image is wide
+            new_height = tile_width // aspect_ratio
+        elif aspect_ratio < 1:
+            # Image is tall
+            new_width = tile_height * aspect_ratio
+
+        # Resize the image while maintaining the aspect ratio
+        img_resized = img_decoded.resize((int(new_width), int(new_height)))
+
+        # Get position
+        pos = img['position']
+
+        # Calculate paste position so the image is centered within its tile
+        paste_x = pos['x']*tile_width + (tile_width - new_width) // 2
+        paste_y = pos['y']*tile_height + (tile_height - new_height) // 2
+
+        # Paste image into the grid at the correct position
+        grid_image.paste(img_resized, (int(paste_x), int(paste_y)))
+
+    # Save the grid image to a temporary file
+    with tempfile.NamedTemporaryFile(dir='/tmp', delete=False, suffix='.png') as f:
+        grid_image.save(f.name, 'PNG')
+        temp_file_name = f.name
+
+    return jsonify({'message': 'Grid created successfully', 'file_path': temp_file_name})
 
 if __name__ == '__main__':
     app.run(port=8000)
