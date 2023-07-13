@@ -425,7 +425,6 @@ var getI2IMaskParams = function getI2IMaskParams(frame) {
     }
   }
   comp.time = originalTime;
-  alert(JSON.stringify(paramValue));
   return paramValue;
 };
 
